@@ -5,17 +5,28 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Till from './components/Till';
+import { getData } from './utils/Requests';
+import { stock } from './Data';
 
 
 export default function App() {
   Logs.enableExpoCliLogging();
 
+  useEffect(()=>{
+    getData().then((response)=>{
+      console.log(response);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  });
+
   // const [records, setRecords] = useState([]);
  
- // This method fetches the records from the database.
+//  This method fetches the records from the database.
 //  useEffect(() => {
 //    async function getRecords() {
-//      const response = await fetch(`http://localhost:5000/record/`);
+//      const response = await fetch(`http://10.0.2.2:3000/getData/`);
  
 //      if (!response.ok) {
 //        const message = `An error occurred: ${response.statusText}`;

@@ -195,4 +195,192 @@ export const products = [
       price: 0.60,
       type: "misc"
     },
-]
+];
+
+export const stock = [
+  {
+    name: "Mozzarella",
+    type: "ingredients"
+},
+{
+  name: "Swiss Cheese",
+  type: "ingredients"
+}
+,
+{
+  name: "Smoked Cheddar",
+  type: "ingredients"
+}
+,
+{
+  name: "Brie",
+  type: "ingredients"
+}
+,
+{
+  name: "Mortadella",
+  type: "ingredients"
+}
+,
+{
+  name: "Ham",
+  type: "ingredients"
+}
+,
+{
+  name: "Salami",
+  type: "ingredients"
+}
+,
+{
+  name: "Pork",
+  type: "ingredients"
+}
+,
+{
+  name: "Pastrami",
+  type: "ingredients"
+}
+,
+{
+  name: "Bacon",
+  type: "ingredients"
+}
+,
+{
+  name: "Chicken",
+  type: "ingredients"
+}
+,
+{
+  name: "Tuna",
+  type: "ingredients"
+}
+,
+{
+  name: "Lettuce",
+  type: "ingredients"
+}
+,
+{
+  name: "Peppers",
+  type: "ingredients"
+}
+,
+{
+  name: "Rocket",
+  type: "ingredients"
+}
+,
+{
+  name: "Jalepenos",
+  type: "ingredients"
+}
+,
+{
+  name: "Pickles",
+  type: "ingredients"
+}
+,
+{
+  name: "Mustard",
+  type: "ingredients"
+}
+,
+{
+  name: "Salsa",
+  type: "ingredients"
+}
+,
+{
+  name: "Pesto",
+  type: "ingredients"
+}
+,
+{
+  name: "Marg",
+  type: "ingredients"
+}
+,
+{
+  name: "Mayo",
+  type: "ingredients"
+}
+,
+{
+  name: "Hummus",
+  type: "ingredients"
+}
+,
+{
+  name: "Falafel",
+  type: "ingredients"
+}
+,
+{
+  name: "Coffee Beans",
+  type: "coffee"
+}
+,
+{
+  name: "Decaf Coffee",
+  type: "coffee"
+}
+,
+{
+  name: "Hot Chocolate",
+  type: "coffee"
+}
+,
+{
+  name: "Reg Milk",
+  type: "coffee"
+}
+,
+{
+  name: "Oat Milk",
+  type: "coffee"
+},
+{
+  name: "Ready Salted",
+  type: "crisps"
+},
+{
+  name: "Vinegar",
+  type: "crisps"
+},
+{
+  name: "Salt & Pepper",
+  type: "crisps"
+}
+,
+{
+  name: "Chilli",
+  type: "crisps"
+}
+,
+{
+  name: "Pringles",
+  type: "crisps"
+},
+{
+  name: "Choc Caramel",
+  type: "treats"
+},
+{
+  name: "White Caramel",
+  type: "treats"
+},
+{
+  name: "Rocky Road",
+  type: "treats"
+},
+{
+  name: "Malteser",
+  type: "treats"
+},
+{
+  name: "Flapjack",
+  type: "treats"
+}
+];
