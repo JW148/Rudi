@@ -22,6 +22,7 @@ export default function MeatMenu({setMeatOpen, total, setTotal, products}){
         style={styles.container}
         snapPoints={snapPoints}
         ref={bottomSheetRef}
+        backgroundStyle={{borderRadius: 1}}
       >
         <View style={{flexDirection: 'column', flex: 1}}>
         <View style={styles.row}>

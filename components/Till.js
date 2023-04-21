@@ -3,11 +3,11 @@ import { StyleSheet, View, TouchableOpacity, Text, StatusBar } from 'react-nativ
 
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import VegMenu from './VegMenu';
-import MeatMenu from './MeatMenu';
-import CoffeeMenu from './CoffeeMenu';
-import DrinksMenu from './DrinksMenu';
-import MiscMenu from './MiscMenu';
+import VegMenu from './till/VegMenu';
+import MeatMenu from './till/MeatMenu';
+import CoffeeMenu from './till/CoffeeMenu';
+import DrinksMenu from './till/DrinksMenu';
+import MiscMenu from './till/MiscMenu';
 import { products } from '../Data';
 
 export default function Till(){

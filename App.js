@@ -1,25 +1,34 @@
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { Logs } from 'expo';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Till from './components/Till';
-import { getData } from './utils/Requests';
-import { stock } from './Data';
+import Stock from './components/Stock';
+import { getData, create } from './utils/Requests';
 
 
 export default function App() {
   Logs.enableExpoCliLogging();
-
+ 
   useEffect(()=>{
-    getData().then((response)=>{
+    create().then((response)=>{
       console.log(response);
-    })
+    }) 
     .catch((error)=>{
       console.log(error);
-    })
-  });
+    })  
+  }); 
+
+  // useEffect(()=>{
+  //   create().then(response => response.json())
+  //   .then(json => {
+  //     return json.body;
+  //   }).catch(err => {
+  //     console.error(err);
+  //   })
+  // })
 
   // const [records, setRecords] = useState([]);
  
@@ -50,6 +59,7 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Till">
         <Drawer.Screen name="Till" component={Till} />
+        <Drawer.Screen name="Stock" component={Stock}/>
       </Drawer.Navigator>
     </NavigationContainer>
 
