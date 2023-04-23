@@ -1,5 +1,5 @@
 
-const {MongoClient} = require("mongodb");
+const {MongoClient, ObjectId} = require("mongodb");
 
 const uri = "mongodb+srv://myAtlasDBUser:7ZNOL2OKRqlciE4b@cluster0.hz3iyqm.mongodb.net/?retryWrites=true&w=majority";
 
@@ -46,14 +46,30 @@ app.get("/", async (req, res) =>{
 
     console.log("Returning results to client.")
     res.send(results).status(200);
-})
+});
 
 //create route (http request to add a new item to the collection)
-app.post("/create", async (req, res) => {
-    let data = req.body;
-    res.send(data).status(200);
-})
+app.post("/create", async (req, res) => { 
+  console.log("Connecting to collection...");
+    let collection = db.collection("Ingredients");
+    console.log("Inserting document...");
+    let newDoc = req.body;
+    let result = await collection.insertOne(newDoc);
+    console.log("Returning results to client.")
+    res.send(result).status(204);
+});
+
+app.delete("/delete/:id", async (req, res) => {
+  console.log(req.params);
+  const query = {_id: new ObjectId(req.params.id)}
+   console.log("Connecting to collection...");
+   const collection = db.collection("Ingredients");
+   console.log("Deleting document...");
+   let result = await collection.deleteOne(query);
+   
+   res.send(result).status(200);
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
-})
+}); 

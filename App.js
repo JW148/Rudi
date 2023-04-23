@@ -6,20 +6,20 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Till from './components/Till';
 import Stock from './components/Stock';
-import { getData, create } from './utils/Requests';
+import { getDocs, createDoc, deleteDoc } from './utils/Requests';
 
-
+ 
 export default function App() {
   Logs.enableExpoCliLogging();
- 
+     
   useEffect(()=>{
-    create().then((response)=>{
+    deleteDoc("64441365996cc25425d71964").then((response)=>{
       console.log(response);
     }) 
     .catch((error)=>{
       console.log(error);
     })  
-  }); 
+  });    
 
   // useEffect(()=>{
   //   create().then(response => response.json())

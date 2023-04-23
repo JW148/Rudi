@@ -1,10 +1,9 @@
-export const getData = async() =>{
+export const getDocs = async() =>{
     const response = await fetch("http://10.0.2.2:3000/");
     return await response.json();
 }
-
-export const create = async() => {
-    console.log("here")
+ 
+export const createDoc = async() => {
     const response = await fetch("http://10.0.2.2:3000/create", {
         method: 'POST',
         headers: {
@@ -17,4 +16,11 @@ export const create = async() => {
         }),
       });
     return await response.json();    
-} 
+}  
+ 
+export const deleteDoc = async(id) => {
+  const response = await fetch(`http://10.0.2.2:3000/delete/${id}`, {
+    method: "DELETE"
+  });
+  return await response.json();
+}
