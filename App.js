@@ -12,14 +12,14 @@ import { getDocs, createDoc, deleteDoc } from './utils/Requests';
 export default function App() {
   Logs.enableExpoCliLogging();
      
-  useEffect(()=>{
-    deleteDoc("64441365996cc25425d71964").then((response)=>{
-      console.log(response);
-    }) 
-    .catch((error)=>{
-      console.log(error);
-    })  
-  });    
+  // useEffect(()=>{
+  //   deleteDoc("64441365996cc25425d71964").then((response)=>{
+  //     console.log(response);
+  //   }) 
+  //   .catch((error)=>{
+  //     console.log(error);
+  //   })  
+  // });    
 
   // useEffect(()=>{
   //   create().then(response => response.json())

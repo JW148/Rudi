@@ -4,45 +4,57 @@ import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text, Statu
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import { stock } from '../Data';
+import Items from './stock/Items';
 
 export default function Stock(){
 
     const DATA = [
         {
-            title: "Ingredients"
+            title: "Ingredients",
+            id: 1
         },
         {
-            title: "Treats"
+            title: "Treats",
+            id: 2
         },
         {
-            title: "Coffee"
+            title: "Coffee",
+            id: 3
         },
         {
-            title: "Misc"
+            title: "Misc",
+            id: 4
         },
         {
-            title: "Pastries"
+            title: "Pastries",
+            id: 5
         },
         {
-            title: "Drinks"
+            title: "Drinks",
+            id: 6
         },
         {
-            title: "Crisps"
+            title: "Crisps",
+            id: 7
         },
         {
-            title: "Soup"
+            title: "Soup",
+            id: 8
         }
-    ]
+    ];
+
+    const [itemsOpen, setItemsOpen] = useState(false);
 
     const Item = ({title}) => (
         <View style={{flex:1}}>
-        <TouchableOpacity style={styles.button} onPress={() => handleOnPress('Soup')}>
+        <TouchableOpacity style={styles.button} onPress={() => setItemsOpen(true)}>
         <Text style={{fontSize: 32}}>{title}</Text>
       </TouchableOpacity>
       </View>
       );
 
     return(
+        <GestureHandlerRootView style={{flex:1}}>
         <SafeAreaView style={styles.container}>
       <FlatList
         data={DATA}
@@ -51,7 +63,14 @@ export default function Stock(){
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
-
+    {
+        itemsOpen && (
+            <Items 
+                setItemsOpen={setItemsOpen}
+            />
+        )
+    }
+    </GestureHandlerRootView>
 )};
 
 const styles = StyleSheet.create({
