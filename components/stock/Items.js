@@ -39,7 +39,14 @@ export default function Items({setItemsOpen}){
         }
         <Text>{JSON.stringify(stock[0])}</Text>
       </View>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>trudes!!!!!!!!!!!!!!!!!
+      <TouchableOpacity
+      style={styles.btn}
+    >
+      <Text style={[disabled ? styles.btnText : styles.btnTextDisabled]}>
+        {title}
+      </Text>
+    </TouchableOpacity>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity onPress={() => {setItemsOpen(false);}}>
           <AntDesign name="closecircle" size={32} color="#DDDDDD" />
         </TouchableOpacity>
@@ -70,5 +77,9 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20
-    }
+    },
+    btnContainer: {
+      flex: 1,
+      alignItems: "center",
+    },
   });

@@ -59,8 +59,9 @@ app.post("/create", async (req, res) => {
     res.send(result).status(204);
 });
 
+
+//delete route (http delete request to delete an item, by id, from the db)
 app.delete("/delete/:id", async (req, res) => {
-  console.log(req.params);
   const query = {_id: new ObjectId(req.params.id)}
    console.log("Connecting to collection...");
    const collection = db.collection("Ingredients");
@@ -68,6 +69,19 @@ app.delete("/delete/:id", async (req, res) => {
    let result = await collection.deleteOne(query);
    
    res.send(result).status(200);
+});
+
+//update route (http patch request to update an item, by id, from the db)
+app.patch("/update", async(req, res) => {
+  console.log("Connecting to collection...");
+  const collection = db.collection("Ingredients");
+  console.log("Updating document...");
+  let result = await collection.updateOne(
+    {_id: new ObjectId(req.body.id)},
+    {$set: {name: req.body.name}}
+  );
+
+  res.send(result).status(200);
 });
 
 app.listen(port, () => {

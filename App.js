@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Till from './components/Till';
 import Stock from './components/Stock';
-import { getDocs, createDoc, deleteDoc } from './utils/Requests';
+import { getDocs, createDoc, deleteDoc, updateDoc } from './utils/Requests';
 
  
 export default function App() {
@@ -19,7 +19,16 @@ export default function App() {
   //   .catch((error)=>{
   //     console.log(error);
   //   })  
-  // });    
+  // });   
+  
+  // useEffect(()=>{
+  //   updateDoc({id: '644001d4b9ae44bb6aaf8c69', name: "BACON"}).then((response)=>{
+  //     console.log(response);
+  //   }) 
+  //   .catch((error)=>{
+  //     console.log(error);
+  //   })  
+  // });  
 
   // useEffect(()=>{
   //   create().then(response => response.json())
