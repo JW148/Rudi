@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Text, FlatList } from "react-native";
 
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { AntDesign } from "@expo/vector-icons";
 
 import { getDocs, createDoc, deleteDoc } from "../../utils/Requests";
+import ItemInfo from "./ItemInfo";
 
 
 export default function Items({setItemsOpen}){
@@ -12,19 +13,65 @@ export default function Items({setItemsOpen}){
   const [stock, setStock] = useState([]);
 
   //get stock items
-  useEffect(()=>{
-    getDocs().then((response)=>{
-      setStock(response);
-      console.log(response);
-    }) 
-    .catch((error)=>{
-      console.log(error);
-    })  
-  }, []);  
+  // useEffect(()=>{
+  //   getDocs().then((response)=>{
+  //     setStock(response);
+  //     console.log(response);
+  //   }) 
+  //   .catch((error)=>{
+  //     console.log(error);
+  //   })  
+  // }, []);  
+
+  const items = [
+    {name: "Bacon",
+     price: 2.2,
+     used: 2, 
+    },
+    {name: "Ham",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Mozzarella",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Swiss Cheese",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Falafel",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Hummus",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Tomatos",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Lettuce",
+    price: 2.2,
+    used: 2, 
+    },
+    {name: "Peppers",
+    price: 2.2,
+     used: 2, 
+    },
+  ]
 
   //bottomsheet shiz
   const bottomSheetRef= useRef(null);
   const snapPoints = useMemo(() => ["100%"], []);
+
+  //render bottomSheetScrollView items
+  const renderItem = useCallback(
+    (item) => (
+      <ItemInfo data={item}/>
+    )
+  )
 
   return (
     <BottomSheet
@@ -33,20 +80,17 @@ export default function Items({setItemsOpen}){
       ref={bottomSheetRef}
       backgroundStyle={{borderRadius: 1}}
     >
-      <View style={{fex: 1}}>
-        {
-          stock.map((el, i) => (<Text>{el.name}</Text>))
-        }
-        <Text>{JSON.stringify(stock[0])}</Text>
+      <View style={styles.itemsContainer}>
+      <BottomSheetScrollView>
+        {items.map(renderItem)}
+        <View style={styles.btn}>
+          <TouchableOpacity>
+            <Text style={styles.text}>New Item</Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetScrollView>
       </View>
-      <TouchableOpacity
-      style={styles.btn}
-    >
-      <Text style={[disabled ? styles.btnText : styles.btnTextDisabled]}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.closeBtnContainer}>
       <TouchableOpacity onPress={() => {setItemsOpen(false);}}>
           <AntDesign name="closecircle" size={32} color="#DDDDDD" />
         </TouchableOpacity>
@@ -61,25 +105,23 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       paddingHorizontal: 5,
     },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#DDDDDD',
-      borderColor: 'black',
-      padding: 10,
-      margin: 5,
-      flex: 1,
-      borderRadius: 5,
+    itemsContainer: {
+      flex: 7,
     },
-    row: {
+    closeBtnContainer: {
       flex: 1,
-      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    btn:{
+      borderRadius: 5,
+      backgroundColor: "#f5f5f5",
+      alignItems: 'center',
+      padding: 10,
+      margin: 10
     },
     text: {
-        fontSize: 20
-    },
-    btnContainer: {
-      flex: 1,
-      alignItems: "center",
-    },
+      fontSize: 17,
+        fontWeight: "300",
+    }
   });
