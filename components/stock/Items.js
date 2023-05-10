@@ -8,7 +8,7 @@ import { getDocs, createDoc, deleteDoc } from "../../utils/Requests";
 import ItemInfo from "./ItemInfo";
 
 
-export default function Items({setItemsOpen}){
+export default function Items({setItemsOpen, setNewItemOpen}){
   //store stock item objects in an array
   const [stock, setStock] = useState([]);
 
@@ -73,6 +73,11 @@ export default function Items({setItemsOpen}){
     )
   )
 
+  handleOnPress = () => {
+    setItemsOpen(false);
+    setNewItemOpen(true);
+  }
+
   return (
     <BottomSheet
       style={styles.container}
@@ -84,7 +89,7 @@ export default function Items({setItemsOpen}){
       <BottomSheetScrollView>
         {items.map(renderItem)}
         <View style={styles.btn}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleOnPress}>
             <Text style={styles.text}>New Item</Text>
           </TouchableOpacity>
         </View>

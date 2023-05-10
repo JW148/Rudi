@@ -3,7 +3,7 @@ export const getDocs = async() =>{
     return await response.json();
 }
  
-export const createDoc = async() => {
+export const createDoc = async(data) => {
     const response = await fetch("http://10.0.2.2:3000/create", {
         method: 'POST',
         headers: {
@@ -11,8 +11,9 @@ export const createDoc = async() => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstParam: 'yourValue',
-          secondParam: 'yourOtherValue',
+          name: data.name,
+          price: data.price,
+          usedIn: data.usedIn
         }),
       });
     return await response.json();    

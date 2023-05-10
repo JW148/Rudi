@@ -5,6 +5,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import { stock } from '../Data';
 import Items from './stock/Items';
+import NewItem from './stock/NewItem';
 
 export default function Stock(){
 
@@ -44,6 +45,7 @@ export default function Stock(){
     ];
 
     const [itemsOpen, setItemsOpen] = useState(false);
+    const [newItemOpen, setNewItemOpen] = useState(false);
 
     const Item = ({title}) => (
         <View style={{flex:1}}>
@@ -66,6 +68,15 @@ export default function Stock(){
     {
         itemsOpen && (
             <Items 
+                setItemsOpen={setItemsOpen}
+                setNewItemOpen={setNewItemOpen}
+            />
+        )
+    }
+    {
+        newItemOpen && (
+            <NewItem 
+                setNewItemOpen={setNewItemOpen}
                 setItemsOpen={setItemsOpen}
             />
         )
