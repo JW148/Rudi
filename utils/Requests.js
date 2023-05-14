@@ -1,10 +1,10 @@
 export const getDocs = async() =>{
-    const response = await fetch("http://10.0.2.2:3000/");
+    const response = await fetch("http://192.168.0.58:3000/");
     return await response.json();
 }
  
 export const createDoc = async(data) => {
-    const response = await fetch("http://10.0.2.2:3000/create", {
+    const response = await fetch("http://192.168.0.58:3000/create", {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -20,14 +20,14 @@ export const createDoc = async(data) => {
 }  
 
 export const deleteDoc = async(id) => {
-  const response = await fetch(`http://10.0.2.2:3000/delete/${id}`, {
+  const response = await fetch(`http://192.168.0.58:3000/delete/${id}`, {
     method: "DELETE"
   });
   return await response.json();
 }
 
 export const updateDoc = async(data) => {
-  const response = await fetch("http://10.0.2.2:3000/update", {
+  const response = await fetch("http://192.168.0.58:3000/update", {
     method: "PATCH",
     headers: {
       Accept: 'application/json',

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, FlatList } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, FlatList, ActivityIndicator } from "react-native";
 
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { AntDesign } from "@expo/vector-icons";
@@ -12,55 +12,30 @@ export default function Items({setItemsOpen, setNewItemOpen}){
   //store stock item objects in an array
   const [stock, setStock] = useState([]);
 
-  //get stock items
-  // useEffect(()=>{
-  //   getDocs().then((response)=>{
-  //     setStock(response);
-  //     console.log(response);
-  //   }) 
-  //   .catch((error)=>{
-  //     console.log(error);
-  //   })  
-  // }, []);  
+  // get stock items 
+  useEffect(()=>{
+    getDocs().then((response)=>{
+      setStock(response);
+      console.log(response);
+    }) 
+    .catch((error)=>{
+      console.log(error);
+    })  
+  }, []);  
 
-  const items = [
-    {name: "Bacon",
-     price: 2.2,
-     used: 2, 
-    },
-    {name: "Ham",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Mozzarella",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Swiss Cheese",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Falafel",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Hummus",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Tomatos",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Lettuce",
-    price: 2.2,
-    used: 2, 
-    },
-    {name: "Peppers",
-    price: 2.2,
-     used: 2, 
-    },
-  ]
+  const removeItem = (id) => {
+    //update elements in the app locally
+    let newStock = stock.filter((el) => {return el._id != id;});
+    setStock(newStock);
+
+    //update DB
+    deleteDoc(id).then((response)=>{
+      console.log(response);
+    }) 
+    .catch((error)=>{
+      console.log(error);
+    })
+  }
 
   //bottomsheet shiz
   const bottomSheetRef= useRef(null);
@@ -69,7 +44,7 @@ export default function Items({setItemsOpen, setNewItemOpen}){
   //render bottomSheetScrollView items
   const renderItem = useCallback(
     (item) => (
-      <ItemInfo data={item}/>
+      <ItemInfo data={item} removeItem={removeItem}/>
     )
   )
 
@@ -87,12 +62,10 @@ export default function Items({setItemsOpen, setNewItemOpen}){
     >
       <View style={styles.itemsContainer}>
       <BottomSheetScrollView>
-        {items.map(renderItem)}
-        <View style={styles.btn}>
-          <TouchableOpacity onPress={handleOnPress}>
+        {stock.map(renderItem)}
+          <TouchableOpacity style={styles.btn} onPress={handleOnPress}>
             <Text style={styles.text}>New Item</Text>
           </TouchableOpacity>
-        </View>
       </BottomSheetScrollView>
       </View>
       <View style={styles.closeBtnContainer}>

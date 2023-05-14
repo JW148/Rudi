@@ -40,6 +40,8 @@ export default function NewItem({setNewItemOpen, setItemsOpen}){
     }
     console.log(item);
     createDoc(item);
+    setNewItemOpen(false);
+    setItemsOpen(true);
   }
 
 
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 14,
-    fontWeight: "350",
+    fontWeight: "300",
   },
   iconStyle: {
     width: 20,
