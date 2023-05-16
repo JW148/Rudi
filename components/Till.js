@@ -2,28 +2,36 @@ import React, {useState} from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, StatusBar } from 'react-native';
 
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { AntDesign } from "@expo/vector-icons";
 
 import VegMenu from './till/VegMenu';
 import MeatMenu from './till/MeatMenu';
 import CoffeeMenu from './till/CoffeeMenu';
 import DrinksMenu from './till/DrinksMenu';
 import MiscMenu from './till/MiscMenu';
+import Sale from './till/Sale';
 import { products } from '../Data';
 
 export default function Till(){
 
   //state vars
   const [total, setTotal] = useState(0);
+
   const [vegOpen, setVegOpen] = useState(false);
   const [meatOpen, setMeatOpen] = useState(false);
   const [coffeeOpen, setCoffeeOpen] = useState(false);
   const [drinksOpen, setDrinksOpen] = useState(false);
   const [miscOpen, setMiscOpen] = useState(false);
+  const [saleOpen, setSaleOpen] = useState(false);
+
+  const [saleItems, setSaleItems] = useState([]);
 
   //onPress avent to update the total
   const handleOnPress = (name) => {
     let product = products.find(o => o.name === name);
     setTotal(+(total + product.price).toFixed(3));
+    saleItems.push(product);
+    console.log(saleItems);
   };
 
   return(
@@ -73,17 +81,15 @@ export default function Till(){
         <Text>£{total}</Text>
         </View>
       </View>
-        <TouchableOpacity style={styles.button} onPress={() => setTotal(0)}>
-        <Text>Clear</Text>
+        <TouchableOpacity style={styles.button} onPress={() => setSaleOpen(true)}>
+        <AntDesign name="shoppingcart" size={24} color="black" />
       </TouchableOpacity>
       </View>
       {
         vegOpen && (
           <VegMenu
             setVegOpen={setVegOpen}
-            total={total}
-            setTotal={setTotal}
-            products={products}
+            handleOnPress={handleOnPress}
           />
         )
       }
@@ -91,9 +97,7 @@ export default function Till(){
         meatOpen && (
           <MeatMenu 
           setMeatOpen={setMeatOpen}
-          total={total}
-          setTotal={setTotal}
-          products={products}
+          handleOnPress={handleOnPress}
           />
         )
       }
@@ -101,9 +105,7 @@ export default function Till(){
         coffeeOpen && (
           <CoffeeMenu
             setCoffeeOpen={setCoffeeOpen}
-            total={total}
-            setTotal={setTotal}
-            products={products}
+            handleOnPress={handleOnPress}
           />
         )
       }
@@ -111,9 +113,7 @@ export default function Till(){
         drinksOpen && (
           <DrinksMenu
             setDrinksOpen={setDrinksOpen}
-            total={total}
-            setTotal={setTotal}
-            products={products}
+            handleOnPress={handleOnPress}
           />
         )
       }
@@ -121,9 +121,16 @@ export default function Till(){
         miscOpen && (
           <MiscMenu
             setMiscOpen={setMiscOpen}
-            total={total}
-            setTotal={setTotal}
-            products={products}
+            handleOnPress={handleOnPress}
+          />
+        )
+      }
+      {
+        saleOpen && (
+          <Sale 
+            setSaleOpen={setSaleOpen}
+            saleItems={saleItems}
+            setSaleItems={setSaleItems}
           />
         )
       }

@@ -4,18 +4,11 @@ import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 import BottomSheet from '@gorhom/bottom-sheet';
 import { AntDesign } from "@expo/vector-icons";
 
-export default function CoffeeMenu({setCoffeeOpen, total, setTotal, products}){
+export default function CoffeeMenu({setCoffeeOpen, handleOnPress={handleOnPress}}){
 
     // bottomShelf variables
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["100%"], []);
-
-
-  //onPress function
-  const handleOnPress = (name) => {
-    let product = products.find(o => o.name === name);
-    setTotal(+(total + product.price).toFixed(3));
-  };
 
     return( 
         <BottomSheet
