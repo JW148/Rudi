@@ -4,18 +4,26 @@ import { StyleSheet, View, TouchableOpacity, Text, FlatList, ActivityIndicator }
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { AntDesign } from "@expo/vector-icons";
 
-export default function Sale({setSaleOpen, saleItems, setSaleItems}){
+import { newSale } from "../../utils/Requests";
+
+export default function Sale({setSaleOpen, saleItems, setSaleItems, total}){
 
     //bottomsheet shiz
   const bottomSheetRef= useRef(null);
   const snapPoints = useMemo(() => ["100%"], []);
 
-  //render bottomSheetScrollView items
-  const renderItem = useCallback(
-    (item) => (
-      <Text>{item.name}</Text>
-    )
-  )
+  handleOnPress = () => {
+    let data = {
+      items: saleItems,
+      total: total
+    }
+    newSale(data).then((response)=>{
+      console.log(response);
+    }) 
+    .catch((error)=>{
+      console.error(error);
+    });
+  }
 
     return(
         <BottomSheet
@@ -42,6 +50,14 @@ export default function Sale({setSaleOpen, saleItems, setSaleItems}){
                 })}
                 </BottomSheetScrollView>
             </View>
+            <View style={styles.footerContainer}>
+              <TouchableOpacity style={styles.addItemBtn} onPress={handleOnPress}>
+                <Text style={styles.btnText}>Add Item</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelBtn} >
+                <Text style={styles.btnText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.closeBtnContainer}>
                 <TouchableOpacity onPress={() => {setSaleOpen(false);}}>
                     <AntDesign name="closecircle" size={32} color="#DDDDDD" />
@@ -67,6 +83,9 @@ const styles = StyleSheet.create({
     itemsContainer: {
         flex: 7,
       },
+    footerContainer: {
+      flex: 2
+    },  
     closeBtnContainer: {
         flex: 1,
         alignItems: 'center',
@@ -95,4 +114,20 @@ const styles = StyleSheet.create({
         fontWeight: "300",
         padding: 4
     }, 
+    addItemBtn: {
+      borderRadius: 10,
+      backgroundColor: "rgb(66, 133, 244)",
+      marginBottom: 10
+    },  
+    cancelBtn: {
+      borderRadius: 10,
+      backgroundColor: "rgb(219, 68, 55)"
+    },
+    btnText: {
+      textAlign: "center",
+      fontWeight: "400",
+      color: "white",
+      fontSize: 20,
+      padding: 10,
+    },  
   });

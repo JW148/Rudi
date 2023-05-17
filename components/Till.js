@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, StatusBar } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, StatusBar, ToastAndroid } from 'react-native';
 
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import { AntDesign } from "@expo/vector-icons";
@@ -131,6 +131,7 @@ export default function Till(){
             setSaleOpen={setSaleOpen}
             saleItems={saleItems}
             setSaleItems={setSaleItems}
+            total={total}
           />
         )
       }

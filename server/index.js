@@ -84,6 +84,17 @@ app.patch("/update", async(req, res) => {
   res.send(result).status(200);
 });
 
+//createSale route(http request to add a new sale to the Sales collection)
+app.post("/createSale", async (req, res) => { 
+  console.log("Connecting to collection...");
+    let collection = db.collection("Sales");
+    console.log("Inserting document...");
+    let newDoc = req.body;
+    let result = await collection.insertOne(newDoc);
+    console.log("Returning results to client.")
+    res.send(result).status(204);
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
 }); 

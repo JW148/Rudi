@@ -38,4 +38,34 @@ export const updateDoc = async(data) => {
   return await response.json();
 }
 
+export const newSale = async(data) => {
+  // getWeather().then((response)=>{
+  //     weather = response;
+  //   }) 
+  //   .catch((error)=>{
+  //     console.log(error);
+  //   })  
+    
+  const response = await fetch("http://10.0.2.2:3000/createSale", {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: data.items,
+          total: data.total,
+          dateTime: new Date(),
+          weather: await getWeather()
+        }),
+      });
+    return await response.json(); 
+}
+
+//get weather data
+const getWeather = async() => {
+  let response = await fetch("http://api.weatherapi.com/v1/current.json?key=9a35dba962844328897163858231705&q=EH12QN&aqi=no");
+  return response.json();
+}
+
 //10.0.2.2
