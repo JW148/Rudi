@@ -9,7 +9,7 @@ import MeatMenu from './till/MeatMenu';
 import CoffeeMenu from './till/CoffeeMenu';
 import DrinksMenu from './till/DrinksMenu';
 import MiscMenu from './till/MiscMenu';
-import Sale from './till/Sale';
+import Sale2 from './till/Sale2';
 import { products } from '../Data';
 
 export default function Till(){
@@ -26,9 +26,15 @@ export default function Till(){
 
   const [saleItems, setSaleItems] = useState([]);
 
+  const [currIndex, setCurrIndex] = useState(0);
+
   //onPress avent to update the total
   const handleOnPress = (name) => {
-    let product = products.find(o => o.name === name);
+    //have to deep copy the product object otherwise you get weird referencing based bug
+    let product = JSON.parse(JSON.stringify(products.find(o => o.name === name)));
+    product.id = currIndex;
+    setCurrIndex(currIndex + 1);
+    console.log(currIndex);
     setTotal(+(total + product.price).toFixed(3));
     saleItems.push(product);
     console.log(saleItems);
@@ -127,11 +133,12 @@ export default function Till(){
       }
       {
         saleOpen && (
-          <Sale 
+          <Sale2 
             setSaleOpen={setSaleOpen}
             saleItems={saleItems}
             setSaleItems={setSaleItems}
             total={total}
+            setTotal={setTotal}
           />
         )
       }
