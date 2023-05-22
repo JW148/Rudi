@@ -1,4 +1,4 @@
-import React, {useMemo, useRef} from 'react';
+import React, {useMemo, useRef, useEffect, useSyncExternalStore, useState} from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, StatusBar } from 'react-native'; 
 
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -12,11 +12,34 @@ export default function Sale2({setSaleOpen, saleItems, setSaleItems, total, setT
   const bottomSheetRef= useRef(null);
   const snapPoints = useMemo(() => ["100%"], []);
 
+  //used for btn logic
+  const [btnDisabled, setBtnDisabled] = useState(false);
+  useEffect(() => {
+    total === 0 ? setBtnDisabled(true) : setBtnDisabled(false);
+  }, [total])
+
+
   handleDelete = (itemId, itemPrice) => {
-    console.log(itemId);
     setSaleItems(saleItems.filter(item => item.id !== itemId));
     setTotal(+(total - itemPrice).toFixed(3))
-    console.log(saleItems);
+  }
+
+  handleOnPress = () => {
+    setSaleOpen(false);
+    setTotal(0);
+    setSaleItems([]);
+
+    //make sale object to send to DB
+    let obj = {
+      items: saleItems,
+      total: total
+    }
+    newSale(obj).then((response)=>{
+          console.log(response);
+        }) 
+        .catch((error)=>{
+          console.log(error);
+        })  
   }
   
   return(
@@ -46,6 +69,11 @@ export default function Sale2({setSaleOpen, saleItems, setSaleItems, total, setT
       </View>
       <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Total            £{total}</Text>
+      </View>
+      <View style={styles.btnContainer}>
+        <TouchableOpacity style={[btnDisabled ? styles.disabled : styles.btn]} disabled={btnDisabled} onPress={handleOnPress}>
+          <Text style={styles.btnText}>Submit Sale</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.footerContainer}>
         <TouchableOpacity onPress={() => {setSaleOpen(false);}}>
@@ -86,12 +114,17 @@ const styles = StyleSheet.create({
   },
   totalContainer: {
     flex: 1,
-    borderTopColorolor: "#515151",
-    borderTopWidth: 1,
+    borderBottomColorolor: "#515151",
+    borderBottomWidth: 1,
     width: '90%',
     alignSelf: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 15
+  },
+  btnContainer: {
+    flex: 1,
+    marginHorizontal: 18
   },
   headerText: {
     fontSize: 20,
@@ -102,4 +135,21 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     padding: 4
   }, 
+  btn: {
+    borderRadius: 10,
+    backgroundColor: "rgb(66, 133, 244)",
+    marginBottom: 10
+  }, 
+  disabled: {
+    borderRadius: 10,
+    backgroundColor: "rgba(50, 50, 50, 0.2)",
+    marginBottom: 10
+  }, 
+  btnText: {
+    textAlign: "center",
+    fontWeight: "400",
+    color: "white",
+    fontSize: 20,
+    padding: 10,
+  },  
 });
