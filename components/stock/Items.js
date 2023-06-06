@@ -14,6 +14,10 @@ export default function Items({setItemsOpen, setNewItemOpen}){
 
   // get stock items 
   useEffect(()=>{
+    updateDocs();
+  }, []);  
+
+  const updateDocs = () => {
     getDocs().then((response)=>{
       setStock(response);
       console.log(response);
@@ -21,7 +25,7 @@ export default function Items({setItemsOpen, setNewItemOpen}){
     .catch((error)=>{
       console.log(error);
     })  
-  }, []);  
+  }
 
   const removeItem = (id) => {
     //update elements in the app locally
@@ -44,7 +48,7 @@ export default function Items({setItemsOpen, setNewItemOpen}){
   //render bottomSheetScrollView items
   const renderItem = useCallback(
     (item) => (
-      <ItemInfo data={item} removeItem={removeItem}/>
+      <ItemInfo data={item} removeItem={removeItem} updateDocs={updateDocs}/>
     )
   )
 

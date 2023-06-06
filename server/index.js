@@ -73,6 +73,15 @@ app.delete("/delete/:id", async (req, res) => {
 
 //update route (http patch request to update an item, by id, from the db)
 app.patch("/update", async(req, res) => {
+
+  const updateDoc = () => {
+    let update = {}
+    Object.keys(req.body).forEach((el) => {
+      update.el = req.body.el;
+    });
+    return update;
+  }
+
   console.log("Connecting to collection...");
   const collection = db.collection("Ingredients");
   console.log("Updating document...");
@@ -95,6 +104,39 @@ app.post("/createSale", async (req, res) => {
     res.send(result).status(204);
 });
 
-app.listen(port, () => {
+//increment route(http request to increment the 'amount in stock' and 'used this week' fields for a specified item)
+app.patch("/incDec", async(req, res) => {
+
+
+  //a way to get all the keys from the request body and make a query object out of them
+  //this is to be used in the update route to update varying amounts of fields in a document
+  (()=>{
+    let obj = {};
+    let keys = Object.keys(req.body)
+    
+    keys.forEach((el) => {
+      obj[el] = req.body[el];
+    })
+    console.log(obj);
+}
+  )();
+
+  console.log(req.body.id);
+  console.log("Connecting to collection...");
+  const collection = db.collection("Ingredients");
+  console.log("Updating document...");
+
+  // this option instructs the method to create a document if no documents match the filter
+  const options = { upsert: true };
+
+  let result = await collection.updateOne(
+    {_id: new ObjectId(req.body.id)},
+    {$inc: {amntInStock: req.body.x, usedWeek: req.body.y}}
+  );
+  console.log("Returning results to client.")
+  res.send(result).status(200);
+})
+
+app.listen(port, () => { 
   console.log(`Server listening on port ${port}`)
 }); 

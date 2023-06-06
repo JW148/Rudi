@@ -1,10 +1,12 @@
+import { DarkTheme } from "@react-navigation/native";
+
 export const getDocs = async() =>{
-    const response = await fetch("http://94.173.240.211:3000/");
+    const response = await fetch("http://192.168.0.73:3000/");
     return await response.json();
 }
  
 export const createDoc = async(data) => {
-    const response = await fetch("http://94.173.240.211:3000/create", {
+    const response = await fetch("http://192.168.0.73:3000/create", {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -13,21 +15,23 @@ export const createDoc = async(data) => {
         body: JSON.stringify({
           name: data.name,
           price: data.price,
-          usedIn: data.usedIn
+          usedIn: data.usedIn,
+          amntInStock: data.amntInStock,
+          usedWeek: data.usedWeek
         }),
       });
     return await response.json();    
 }  
 
 export const deleteDoc = async(id) => {
-  const response = await fetch(`http://94.173.240.211:3000/delete/${id}`, {
+  const response = await fetch(`http://192.168.0.73:3000/delete/${id}`, {
     method: "DELETE"
   });
   return await response.json();
 }
 
 export const updateDoc = async(data) => {
-  const response = await fetch("http://94.173.240.211:3000/update", {
+  const response = await fetch("http://192.168.0.73:3000/update", {
     method: "PATCH",
     headers: {
       Accept: 'application/json',
@@ -38,9 +42,26 @@ export const updateDoc = async(data) => {
   return await response.json();
 }
 
+export const incDecDoc = async(data) => {
+  console.log(data)
+  const response = await fetch("http://10.0.2.2:3000/incDec", {
+    method: "PATCH",
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: data.id,
+      x: data.x,
+      y: data.y,
+    }),
+  });
+  return await response.json();
+}
+
 export const newSale = async(data) => {
     
-  const response = await fetch("http://94.173.240.211:3000/createSale", {
+  const response = await fetch("http://192.168.0.73:3000/createSale", {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -65,3 +86,5 @@ const getWeather = async() => {
 //10.0.2.2
 //192.168.0.58
 //94.173.240.211
+
+//192.168.0.73

@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, Text, StatusBar, Button, Alert } from 'react-native';
 
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-export default function ItemInfo({data, removeItem}){
+import { incDecDoc } from "../../utils/Requests";
+
+export default function ItemInfo({data, removeItem, updateDocs}){
 
     const deleteAlert = () => 
         Alert.alert('Caution!', 'Are you sure you want to delete this item?', [
@@ -22,6 +24,39 @@ export default function ItemInfo({data, removeItem}){
         console.log('Deleting ' + data._id);
         removeItem(data._id);
     }
+
+
+    const increment = () => {
+        let item = {
+            id: data._id,
+            x: 1,
+            y: 0
+        }
+        incDecDoc(item).then((response)=>{
+            console.log(response);
+            updateDocs();
+          }) 
+          .catch((error)=>{
+            console.log(error);
+          })  ;
+    }
+
+    const decrement = () => {
+        if(data.amntInStock > 0){
+        let item = {
+            id: data._id,
+            x: -1,
+            y: 0
+        }
+        incDecDoc(item).then((response)=>{
+            console.log(response);
+            updateDocs();
+          }) 
+          .catch((error)=>{
+            console.log(error);
+          })  ;
+        }
+    }
     
     return(
         <View style={styles.container}>
@@ -30,16 +65,16 @@ export default function ItemInfo({data, removeItem}){
             </View>
             <View style={styles.infoContainer}>
                 <View style={styles.amountContainer}>
-                    <Text style={styles.infoText}>Amount in stock: {data.amntInStock}</Text>
-                    <TouchableOpacity style={{marginHorizontal: 5}}>
+                    <Text style={styles.infoText}>Amount in stock:</Text>
+                    <TouchableOpacity style={{marginHorizontal: 5}} onPress={increment}>
                         <AntDesign name="pluscircleo" size={24} color="black" />
                     </TouchableOpacity>
-                    <Text style={styles.infoText}>0</Text>
-                    <TouchableOpacity style={{marginHorizontal: 5}}>
+                    <Text style={styles.infoText}>{data.amntInStock}</Text>
+                    <TouchableOpacity style={{marginHorizontal: 5}} onPress={decrement}>
                         <AntDesign name="minuscircleo" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.infoText}>Used this week: {data.used}</Text>
+                <Text style={styles.infoText}>Used this week: {data.usedWeek}</Text>
                 <Text style={styles.infoText}>Unit price: £{data.price}</Text>
                 <Text style={styles.infoText}>Used in: </Text>
                 <View style={styles.usedInContainer}>

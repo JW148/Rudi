@@ -37,8 +37,9 @@ export default function NewItem({setNewItemOpen, setItemsOpen}){
       name: name,
       price: price,
       usedIn : selected,
+      amntInStock: 0,
+      usedWeek: 0
     }
-    console.log(item);
     createDoc(item);
     setNewItemOpen(false);
     setItemsOpen(true);
