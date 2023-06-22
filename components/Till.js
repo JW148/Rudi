@@ -1,31 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, StatusBar, ToastAndroid } from 'react-native';
 
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import { AntDesign } from "@expo/vector-icons";
 
-import VegMenu from './till/VegMenu';
-import MeatMenu from './till/MeatMenu';
-import CoffeeMenu from './till/CoffeeMenu';
-import DrinksMenu from './till/DrinksMenu';
-import MiscMenu from './till/MiscMenu';
-import Sale2 from './till/Sale2';
+import Sale from './till/Sale';
+import Button from './Button';
 import { products } from '../Data';
+import Menu from './till/Menu';
 
 export default function Till(){
 
   //state vars
   const [total, setTotal] = useState(0);
 
-  const [vegOpen, setVegOpen] = useState(false);
-  const [meatOpen, setMeatOpen] = useState(false);
+  const [sandwichesOpen, setSandwichesOpen] = useState(false);
   const [coffeeOpen, setCoffeeOpen] = useState(false);
-  const [drinksOpen, setDrinksOpen] = useState(false);
-  const [miscOpen, setMiscOpen] = useState(false);
+  const [otherOpen, setOtherOpen] = useState(false);
   const [saleOpen, setSaleOpen] = useState(false);
 
   const [saleItems, setSaleItems] = useState([]);
-
   const [currIndex, setCurrIndex] = useState(0);
 
   //onPress avent to update the total
@@ -40,110 +33,83 @@ export default function Till(){
     console.log(saleItems);
   };
 
+  test = () => {
+    console.log("hello")
+  }
+
+  //sorting product data into categories to display in the menus
+  const sandwiches = products.filter((el) => {
+    return el.type === 'meat' ||
+           el.type === 'veg'
+  });
+  const coffee = products.filter((el) => {
+    return el.type === 'coffee'
+  })
+  const other = products.filter((el) => {
+    return el.type === 'drink' ||
+           el.type === 'treats' ||
+           el.type === 'drink' ||
+           el.type === 'pastry' ||
+           el.type === 'soup' ||
+           el.type === 'crisps' ||
+           el.type === 'misc' 
+  })
+
   return(
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={{flex:1}}>
       <View style={styles.container}>
-      <View style={styles.row}>
-      <TouchableOpacity style={styles.button} onPress={() => setVegOpen(true)}>
-        <Text>Veg</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => setMeatOpen(true)}>
-        <Text>Meat</Text>
-      </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-      <TouchableOpacity style={styles.button} onPress={() => setCoffeeOpen(true)}>
-        <Text>Coffee</Text>
-      </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-      <TouchableOpacity style={styles.button} onPress={() => setDrinksOpen(true)}>
-        <Text>Drinks</Text>
-      </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-      <TouchableOpacity style={styles.button} onPress={() => handleOnPress('Soup')}>
-        <Text>Soup</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => handleOnPress('Crisps')}>
-        <Text>Crisps</Text>
-      </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-      <TouchableOpacity style={styles.button} onPress={() => handleOnPress('Pastry')}>
-        <Text>Pastry</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => handleOnPress('Treats')}>
-        <Text>Treats</Text>
-      </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-      <TouchableOpacity style={styles.button} onPress={() => setMiscOpen(true)}>
-        <Text>Misc</Text>
-      </TouchableOpacity>
-      <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-        <View style={{flexDirection: 'column'}}>
-        <Text>Total</Text>
-        <Text>£{total}</Text>
+        <View style={{flex: 1}}>
+        <View style={styles.row}>
+          <Button style={styles.button} text={'Sandwiches'} handleOnPress={() => setSandwichesOpen(true)} textStyle={styles.text}/>
+          <Button style={styles.button} text={'Coffee'} handleOnPress={() => setCoffeeOpen(true)} textStyle={styles.text}/>
+        </View>
+        <View style={styles.row}>
+          <Button style={styles.button} text={'Other'} handleOnPress={() => setOtherOpen(true)} textStyle={styles.text}/>
         </View>
       </View>
-        <TouchableOpacity style={styles.button} onPress={() => setSaleOpen(true)}>
-        <AntDesign name="shoppingcart" size={24} color="black" />
-      </TouchableOpacity>
-      </View>
-      {
-        vegOpen && (
-          <VegMenu
-            setVegOpen={setVegOpen}
-            handleOnPress={handleOnPress}
-          />
-        )
-      }
-      {
-        meatOpen && (
-          <MeatMenu 
-          setMeatOpen={setMeatOpen}
-          handleOnPress={handleOnPress}
-          />
-        )
-      }
-      {
-        coffeeOpen && (
-          <CoffeeMenu
-            setCoffeeOpen={setCoffeeOpen}
-            handleOnPress={handleOnPress}
-          />
-        )
-      }
-      {
-        drinksOpen && (
-          <DrinksMenu
-            setDrinksOpen={setDrinksOpen}
-            handleOnPress={handleOnPress}
-          />
-        )
-      }
-      {
-        miscOpen && (
-          <MiscMenu
-            setMiscOpen={setMiscOpen}
-            handleOnPress={handleOnPress}
-          />
-        )
-      }
-      {
-        saleOpen && (
-          <Sale2 
+      <View style={{flex: 2}}>
+        <Sale 
             setSaleOpen={setSaleOpen}
             saleItems={saleItems}
             setSaleItems={setSaleItems}
             total={total}
             setTotal={setTotal}
+        />
+          <StatusBar hidden={true} />
+      </View>
+      {
+        sandwichesOpen && (
+          <Menu
+          header={'Sandwiches'}
+            openClose={setSandwichesOpen}
+            handleOnPress={handleOnPress}
+            items={sandwiches}
+            filters={['veg', 'meat']}
           />
         )
       }
-      <StatusBar 
-      hidden={true} />
+      {
+        coffeeOpen && (
+          <Menu
+          header={'Coffee'}
+            openClose={setCoffeeOpen}
+            handleOnPress={handleOnPress}
+            items={coffee}
+          />
+        )
+      }
+      {
+        otherOpen && (
+          <Menu
+          header={'Other'}
+            openClose={setOtherOpen}
+            handleOnPress={handleOnPress}
+            items={other}
+          />
+        )
+      }
+      </View>
     </View>
     </GestureHandlerRootView>
   );
@@ -160,7 +126,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#128026',
     borderColor: 'black',
     padding: 10,
     margin: 5,
@@ -170,5 +136,12 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',
-  }
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "300",
+    padding: 4,
+    alignSelf: 'center',
+    color: 'white'
+  },
 });

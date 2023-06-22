@@ -176,7 +176,12 @@ export const products = [
       type: "treats"
     },
     {
-      name: "Pastry",
+      name: "Baklava",
+      price: 1.50,
+      type: "pastry"
+    },
+    {
+      name: "Spanakopita",
       price: 1.50,
       type: "pastry"
     },

@@ -1,7 +1,7 @@
-import { DarkTheme } from "@react-navigation/native";
 
 export const getDocs = async() =>{
-    const response = await fetch("http://192.168.0.73:3000/");
+
+    const response = await fetch("http://10.0.2.2:3000/");
     return await response.json();
 }
  
@@ -83,8 +83,8 @@ const getWeather = async() => {
   return response.json();
 }
 
-//10.0.2.2
-//192.168.0.58
-//94.173.240.211
+//10.0.2.2 (for local android emulator)
+//192.168.0.58 (running on dev windows pc for connected physical device on the same network)
+//94.173.240.211 (running on dev windows pc for connected physical device outside the network)
 
-//192.168.0.73
+//192.168.0.73 (server on rasp pi)
