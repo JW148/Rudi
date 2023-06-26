@@ -7,6 +7,7 @@ import Sale from './till/Sale';
 import Button from './Button';
 import { products } from '../Data';
 import Menu from './till/Menu';
+import { getDocs } from '../utils/Requests';
 
 export default function Till(){
 

@@ -73,10 +73,10 @@ export default function Sale({setSaleOpen, saleItems, setSaleItems, total, setTo
         <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#027516'}]]} disabled={btnDisabled} onPress={handleOnPress}>
           <Text style={styles.btnText}>Cash</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: 'red'}]]} disabled={btnDisabled} onPress={handleOnPress}>
+        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: 'red'}]]} disabled={btnDisabled} onPress={clear}>
           <Text style={styles.btnText}>Clear</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#024075'}]]} disabled={btnDisabled} onPress={clear}>
+        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#024075'}]]} disabled={btnDisabled} onPress={handleOnPress}>
           <Text style={styles.btnText}>Card</Text>
         </TouchableOpacity>
       </View>
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+    marginBottom: 10
   },
   headerText: {
     fontSize: 20,

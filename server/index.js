@@ -37,6 +37,13 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//status route (route used to check if the server is running)
+
+app.get("/status", async(req, res) => {
+  console.log("Status: OK");
+  res.send({status: "OK"}).status(200);
+})
+
 //read route (http request to get data from the db)
 app.get("/", async (req, res) =>{
     console.log("Connecting to collection...");

@@ -1,9 +1,21 @@
 Rudi's TODO
 
- - Rearrange the Till menu
+ - Rearrange the Till menu 
    - make it easier to navigate (by colour coordinating, changing layout)
    - change buttons to 'pressable opacity' (for more customisation)
    - make cash or card option (cash option opens another component that you can select the cash amount they've given (£5, £10, £20, £50, etc) 
      and also record in the sale data whether it was a cash or card payment)
   
  - make button component for better encapsulation (reduce code repitition)
+
+ - make connected to server indicator (small green dot in the top right of the screen
+   which indicates it's connected - red if not)
+
+ - make edit item component (once an item has been recorded to the database, the
+   user should have the ability to edit that item)
+
+ - record number of each bread every morning 
+   - either with manual input or 
+   - have the ability to be able to take a picture of the bread order form
+     and from that image the app should read the the name of each bread and it's amount
+     

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text } from 'react-native';
 import { Logs } from 'expo';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -61,13 +61,23 @@ export default function App() {
 //    return;
 //  }, [records.length]);
 
+
+
   const Drawer = createDrawerNavigator();
   
   return (
 
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Till">
-        <Drawer.Screen name="Till" component={Till} />
+        <Drawer.Screen 
+          name="Till"
+          component={Till} 
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <Text>connected</Text>
+            ),
+          })}
+        />
         <Drawer.Screen name="Stock" component={Stock}/>
       </Drawer.Navigator>
     </NavigationContainer>

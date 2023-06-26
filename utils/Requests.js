@@ -1,7 +1,12 @@
 
+export const getStatus = async() => {
+  const response = await fetch("http://192.168.0.73:3000/status");
+  return await response.json();
+}
+
 export const getDocs = async() =>{
 
-    const response = await fetch("http://10.0.2.2:3000/");
+    const response = await fetch("http://192.168.0.73:3000/");
     return await response.json();
 }
  
@@ -44,7 +49,7 @@ export const updateDoc = async(data) => {
 
 export const incDecDoc = async(data) => {
   console.log(data)
-  const response = await fetch("http://10.0.2.2:3000/incDec", {
+  const response = await fetch("http://192.168.0.73:3000/incDec", {
     method: "PATCH",
     headers: {
       Accept: 'application/json',
@@ -88,3 +93,4 @@ const getWeather = async() => {
 //94.173.240.211 (running on dev windows pc for connected physical device outside the network)
 
 //192.168.0.73 (server on rasp pi)
+//94.173.240.211
