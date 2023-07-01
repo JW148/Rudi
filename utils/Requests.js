@@ -36,17 +36,17 @@ export const getStatus = async() => {
 
 export const getSalesWithDate = async(date) => {
   try{
-    const response = await fetch(`http://192.168.0.73:3000/delete/${date}`);
+    const response = await fetch(`http://192.168.0.73:3000/getSales/${date}`);
     return await response.json();
   }catch(err){ 
-    console.log(err)
+    console.log(err) 
     return err;
   } 
 }
 
 export const getDocs = async() =>{
 
-    const response = await fetch("http://192.168.0.73:3000/");
+    const response = await fetch("http://192.168.0.73:3000/"); 
     return await response.json(); 
 } 
  
