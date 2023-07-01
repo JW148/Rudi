@@ -1,7 +1,47 @@
 
+//default fetch request timeout is too long (anywhere frrom 90 - 300 secs)
+//so it take too long to display serverr status in the app
+//that's why this function is used - to cancel/fail the request after 
+// a specified amount of time
+//(function from: https://dmitripavlutin.com/timeout-fetch-request/)
+
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 8000 } = options;
+  
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+
+  return response;
+}
+
 export const getStatus = async() => {
-  const response = await fetch("http://192.168.0.73:3000/status");
-  return await response.json();
+  try{
+    const response = await fetchWithTimeout("http://192.168.0.73:3000/status", {
+      timeout: 2000
+    });
+    const json = await response.json();
+    return json;
+  }catch(err){
+    // Timeouts if the request takes
+    // longer than 6 seconds
+    return err;
+  } 
+}
+
+export const getSalesWithDate = async(date) => {
+  try{
+    const response = await fetch(`http://192.168.0.73:3000/getSales/${date}`);
+    return await response.json();
+  }catch(err){
+    console.log(err)
+    return err;
+  } 
 }
 
 export const getDocs = async() =>{
@@ -29,7 +69,7 @@ export const createDoc = async(data) => {
 }  
 
 export const deleteDoc = async(id) => {
-  const response = await fetch(`http://192.168.0.73:3000/delete/${id}`, {
+  const response = await fetch(`http://192.168.0.73:3000/delete/${id}`, { 
     method: "DELETE"
   });
   return await response.json();

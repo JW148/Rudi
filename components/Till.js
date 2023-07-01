@@ -7,17 +7,15 @@ import Sale from './till/Sale';
 import Button from './Button';
 import { products } from '../Data';
 import Menu from './till/Menu';
-import { getDocs } from '../utils/Requests';
+import { getDocs, getStatus, set } from '../utils/Requests';
 
 export default function Till(){
-
   //state vars
   const [total, setTotal] = useState(0);
 
   const [sandwichesOpen, setSandwichesOpen] = useState(false);
   const [coffeeOpen, setCoffeeOpen] = useState(false);
   const [otherOpen, setOtherOpen] = useState(false);
-  const [saleOpen, setSaleOpen] = useState(false);
 
   const [saleItems, setSaleItems] = useState([]);
   const [currIndex, setCurrIndex] = useState(0);
@@ -33,10 +31,6 @@ export default function Till(){
     saleItems.push(product);
     console.log(saleItems);
   };
-
-  test = () => {
-    console.log("hello")
-  }
 
   //sorting product data into categories to display in the menus
   const sandwiches = products.filter((el) => {
@@ -71,7 +65,6 @@ export default function Till(){
       </View>
       <View style={{flex: 2}}>
         <Sale 
-            setSaleOpen={setSaleOpen}
             saleItems={saleItems}
             setSaleItems={setSaleItems}
             total={total}

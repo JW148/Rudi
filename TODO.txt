@@ -5,6 +5,7 @@ Rudi's TODO
    - change buttons to 'pressable opacity' (for more customisation)
    - make cash or card option (cash option opens another component that you can select the cash amount they've given (£5, £10, £20, £50, etc) 
      and also record in the sale data whether it was a cash or card payment)
+   - every time an item is selected, display next to it how many times it has been selected (counter)
   
  - make button component for better encapsulation (reduce code repitition)
 
@@ -18,4 +19,9 @@ Rudi's TODO
    - either with manual input or 
    - have the ability to be able to take a picture of the bread order form
      and from that image the app should read the the name of each bread and it's amount
-     
+
+ - use moment.js for date/time functionality
+
+ - Sales component
+   - displays current days and previous days sale data
+   - at the top of the component, there will be a horizontal scrolling date picker 

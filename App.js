@@ -6,7 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Till from './components/Till';
 import Stock from './components/Stock';
-import { getDocs, createDoc, deleteDoc, updateDoc } from './utils/Requests';
+import Sales from './components/Sales';
+import { getDocs, createDoc, deleteDoc, updateDoc, getStatus, getSalesWithDate } from './utils/Requests';
 
  
 export default function App() {
@@ -61,7 +62,21 @@ export default function App() {
 //    return;
 //  }, [records.length]);
 
+useEffect(()=>{
+    getSalesWithDate();
+  });
+  
+  const [status, setStatus] = useState('Offline')
 
+  // useEffect(()=>{
+  //   getStatus().then(res => {
+  //     if(res.status === "OK"){
+  //       setStatus('Connected');
+  //     }else{
+  //       setStatus('Offline'); 
+  //     }
+  //   }); 
+  // }); 
 
   const Drawer = createDrawerNavigator();
   
@@ -74,11 +89,28 @@ export default function App() {
           component={Till} 
           options={({ navigation, route }) => ({
             headerRight: () => (
-              <Text>connected</Text>
+              <Text style={{paddingRight: 5}}>{status}</Text>
             ),
           })}
         />
-        <Drawer.Screen name="Stock" component={Stock}/>
+        <Drawer.Screen 
+          name="Stock" 
+          component={Stock}
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <Text style={{paddingRight: 5}}>{status}</Text>
+            ),
+          })}
+          />
+          <Drawer.Screen 
+          name="Sales" 
+          component={Sales}
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <Text style={{paddingRight: 5}}>{status}</Text>
+            ),
+          })}
+          />
       </Drawer.Navigator>
     </NavigationContainer>
 

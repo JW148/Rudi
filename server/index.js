@@ -55,6 +55,11 @@ app.get("/", async (req, res) =>{
     res.send(results).status(200);
 });
 
+app.get("/getSales/:date", async(req, res) => {
+  console.log(req.params.date);
+  res.send().status(200);
+})
+
 //create route (http request to add a new item to the collection)
 app.post("/create", async (req, res) => { 
   console.log("Connecting to collection...");
