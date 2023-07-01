@@ -47,8 +47,8 @@ export const getSalesWithDate = async(date) => {
 export const getDocs = async() =>{
 
     const response = await fetch("http://192.168.0.73:3000/");
-    return await response.json();
-}
+    return await response.json(); 
+} 
  
 export const createDoc = async(data) => {
     const response = await fetch("http://192.168.0.73:3000/create", {

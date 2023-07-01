@@ -56,7 +56,7 @@ app.get("/", async (req, res) =>{
 });
 
 app.get("/getSales/:date", async(req, res) => {
-  console.log(req.params.id);
+  console.log(req.params.date);
   res.send().status(200);
 })
 
