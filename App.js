@@ -65,14 +65,20 @@ export default function App() {
   const [status, setStatus] = useState('Offline')   
 
   useEffect(()=>{   
-    console.log("call")  
-    getStatus().then(res => {
-      if(res.status === "OK"){
-        setStatus('Connected');
-      }else{
-        setStatus('Offline'); 
-      }
-    }); 
+    const addresses = ["10.0.2.2", "192.168.0.58", "192.168.0.73", "94.173.240.211"];
+    let i = 0;
+    let fetch = () => {
+      console.log(i)
+      getStatus(addresses[i]).then(res => {
+        if(res.status === "OK"){
+          setStatus('Connected');
+        }else{
+          i++;
+          fetch(); 
+        }
+      }); 
+    }
+    fetch();
   }, []); 
 
   const Drawer = createDrawerNavigator();

@@ -23,7 +23,9 @@ export default function Sales(){
             i += el.total;
         })
         setTotal(i);
+    }, [transactions])
 
+    useEffect(()=>{
         let j = 0;
         //calculate the taxable amount for the day
         transactions.forEach(el => {
@@ -34,16 +36,25 @@ export default function Sales(){
             })
         })
         setTax(j);
+    }, [total])
+
+    useEffect(()=>{
         //Net total (total minus VAT)
         setNet(total - tax);
-    }, [transactions])
+    }, [tax])
 
 
     useEffect(()=>{
+        setTotal(0);
+        setTax(0);
+        setNet(0);
         getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res)); 
     }, [day])
 
     useEffect(()=>{
+        setTotal(0);
+        setTax(0);
+        setNet(0);
         getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res));
     }, [monthID])
 
@@ -56,21 +67,23 @@ export default function Sales(){
                 setDay={setDay}
             /> 
             <View style={styles.infoContainer}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                        <Text style={styles.infoText}>Net</Text>
-                        <Text style={styles.infoText}>Total</Text>
-                        <Text style={styles.infoText}>VAT</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                        <Text style={[styles.infoText, {fontSize: 24}]}>£{net}</Text>
-                        <Text style={[styles.infoText, {fontSize: 24}]}>£{total}</Text>
-                        <Text style={[styles.infoText, {fontSize: 24}]}>£{tax}</Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-around', borderBottomWidth: 1}}>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text style={styles.infoText}>Net</Text>
+                            <Text style={[styles.infoText, {fontSize: 24}]}>£{net}</Text>
+                        </View>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text style={styles.infoText}>Total</Text>
+                            <Text style={[styles.infoText, {fontSize: 24}]}>£{total}</Text>
+                        </View>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text style={styles.infoText}>VAT</Text>
+                            <Text style={[styles.infoText, {fontSize: 24}]}>£{tax}</Text>
+                        </View>
                     </View>
                 </View>
             <View style={{flex: 3}}>
-                <Transaction 
-                    transactions={transactions}
-                />
+                { transactions ? <Transaction transactions={transactions}/> : <Text style={{alignSelf: 'center'}}>No data</Text>}
             </View>
         </View>
     )

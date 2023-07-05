@@ -20,12 +20,17 @@ async function fetchWithTimeout(resource, options = {}) {
   return response;
 }
 
-export const getStatus = async() => {
+let address = '';
+
+export const getStatus = async(addr) => {
+  console.log(addr)
   try{
-    const response = await fetchWithTimeout("http://94.173.240.211:3000/status", {
-      timeout: 2000
+    const response = await fetchWithTimeout(`http://${addr}:3000/status`, {
+      timeout: 1000
     });
     const json = await response.json();
+    console.log(address)
+    address = addr;
     return json;
   }catch(err){
     // Timeouts if the request takes
@@ -36,7 +41,7 @@ export const getStatus = async() => {
 
 export const getSalesWithDate = async(date) => {
   try{
-    const response = await fetch(`http://94.173.240.211:3000/getSales/${date}`);
+    const response = await fetch(`http://${address}:3000/getSales/${date}`);
     return await response.json();
   }catch(err){
     console.log(err) 
@@ -46,12 +51,12 @@ export const getSalesWithDate = async(date) => {
 
 export const getDocs = async() =>{
 
-    const response = await fetch("http://94.173.240.211:3000/");
+    const response = await fetch(`http://${address}:3000/`);
     return await response.json();
 }
   
 export const createDoc = async(data) => {
-    const response = await fetch("http://94.173.240.211:3000/create", {
+    const response = await fetch(`http://${address}:3000/create`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -69,14 +74,14 @@ export const createDoc = async(data) => {
 }  
 
 export const deleteDoc = async(id) => {
-  const response = await fetch(`http://94.173.240.211:3000/delete/${id}`, { 
+  const response = await fetch(`http://${address}:3000/delete/${id}`, { 
     method: "DELETE"
   });
   return await response.json();
 }
 
 export const updateDoc = async(data) => {
-  const response = await fetch("http://94.173.240.211:3000/update", {
+  const response = await fetch(`http://${address}:3000/update`, {
     method: "PATCH",
     headers: {
       Accept: 'application/json',
@@ -89,7 +94,7 @@ export const updateDoc = async(data) => {
 
 export const incDecDoc = async(data) => {
   console.log(data)
-  const response = await fetch("http://94.173.240.211:3000/incDec", {
+  const response = await fetch(`http://${address}:3000/incDec`, {
     method: "PATCH",
     headers: {
       Accept: 'application/json',
@@ -105,10 +110,11 @@ export const incDecDoc = async(data) => {
 }
 
 import moment from 'moment';
+import { add } from 'react-native-reanimated';
 
 export const newSale = async(data) => {
     
-  const response = await fetch("http://94.173.240.211:3000/createSale", {
+  const response = await fetch(`http://${address}:3000/createSale`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

@@ -25,3 +25,7 @@ Rudi's TODO
  - Sales component
    - displays current days and previous days sale data
    - at the top of the component, there will be a horizontal scrolling date picker 
+
+ - work on sales page totals
+   - because of the async nature of making call to the database then calculating the totals each time,
+   total, tax, and net are updated weirdly
