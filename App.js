@@ -12,7 +12,7 @@ import { getDocs, createDoc, deleteDoc, updateDoc, getStatus, getSalesWithDate }
  
 export default function App() {
   Logs.enableExpoCliLogging();
-     
+
   // useEffect(()=>{
   //   deleteDoc("64441365996cc25425d71964").then((response)=>{
   //     console.log(response);
@@ -61,22 +61,19 @@ export default function App() {
  
 //    return;
 //  }, [records.length]);
-
-useEffect(()=>{
-    getSalesWithDate();
-  });
   
-  const [status, setStatus] = useState('Offline')
+  const [status, setStatus] = useState('Offline')   
 
-  // useEffect(()=>{
-  //   getStatus().then(res => {
-  //     if(res.status === "OK"){
-  //       setStatus('Connected');
-  //     }else{
-  //       setStatus('Offline'); 
-  //     }
-  //   }); 
-  // }); 
+  useEffect(()=>{   
+    console.log("call")  
+    getStatus().then(res => {
+      if(res.status === "OK"){
+        setStatus('Connected');
+      }else{
+        setStatus('Offline'); 
+      }
+    }); 
+  }, []); 
 
   const Drawer = createDrawerNavigator();
   

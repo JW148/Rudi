@@ -6,11 +6,7 @@ import moment from 'moment';
 const ITEM_WIDTH = 100;
 const ITEM_MARGIN_RIGHT = 10;
 
-
-export default function DatePicker(){
-
-    const [monthID, setMonthId] = useState(moment().month())
-    const [day, setDay] = useState(moment().format('DD'))
+export default function DatePicker({monthID, setMonthId, day, setDay}){
 
     //get calander data
     let months = moment.monthsShort();
@@ -40,14 +36,16 @@ export default function DatePicker(){
         </TouchableOpacity>
     );
 
+    //keep track of day and month states to request new data from the db
+
+
     return(
         <View style={styles.container}>
-            <View style={{flex: 1}}>
                 <FlatList 
                     data={months}
                     renderItem={renderItem}
                     horizontal={true}
-                    initialScrollIndex={4}
+                    initialScrollIndex={monthID}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index}
                     getItemLayout={getItemLayout}
@@ -56,25 +54,11 @@ export default function DatePicker(){
                     data={days[monthID]}
                     renderItem={renderDays}
                     horizontal={true}
-                    initialScrollIndex={4}
+                    initialScrollIndex={day}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index}
                     getItemLayout={getItemLayout}
                 />
-                </View>
-                <View style={styles.infoContainer}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                        <Text style={styles.infoText}>%</Text>
-                        <Text style={styles.infoText}>Total</Text>
-                        <Text style={styles.infoText}>VAT</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                        <Text style={[styles.infoText, {fontSize: 24}]}>()</Text>
-                        <Text style={[styles.infoText, {fontSize: 24}]}>£40.95</Text>
-                        <Text style={[styles.infoText, {fontSize: 24}]}>£8.73</Text>
-                    </View>
-                </View>
-            <View style={{flex: 3}}></View>
         </View> 
     )
 }
@@ -113,14 +97,4 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: '#B90016',
       },
-      infoContainer: {
-        flex: 1, 
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        margin: 10,
-      },
-      infoText: {
-        fontWeight: 300,
-        fontSize: 32
-      }
 });

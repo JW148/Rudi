@@ -22,7 +22,7 @@ async function fetchWithTimeout(resource, options = {}) {
 
 export const getStatus = async() => {
   try{
-    const response = await fetchWithTimeout("http://192.168.0.73:3000/status", {
+    const response = await fetchWithTimeout("http://94.173.240.211:3000/status", {
       timeout: 2000
     });
     const json = await response.json();
@@ -36,9 +36,9 @@ export const getStatus = async() => {
 
 export const getSalesWithDate = async(date) => {
   try{
-    const response = await fetch(`http://192.168.0.73:3000/getSales/${date}`);
+    const response = await fetch(`http://94.173.240.211:3000/getSales/${date}`);
     return await response.json();
-  }catch(err){ 
+  }catch(err){
     console.log(err) 
     return err;
   } 
@@ -46,12 +46,12 @@ export const getSalesWithDate = async(date) => {
 
 export const getDocs = async() =>{
 
-    const response = await fetch("http://192.168.0.73:3000/"); 
-    return await response.json(); 
-} 
- 
+    const response = await fetch("http://94.173.240.211:3000/");
+    return await response.json();
+}
+  
 export const createDoc = async(data) => {
-    const response = await fetch("http://192.168.0.73:3000/create", {
+    const response = await fetch("http://94.173.240.211:3000/create", {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -69,14 +69,14 @@ export const createDoc = async(data) => {
 }  
 
 export const deleteDoc = async(id) => {
-  const response = await fetch(`http://192.168.0.73:3000/delete/${id}`, { 
+  const response = await fetch(`http://94.173.240.211:3000/delete/${id}`, { 
     method: "DELETE"
   });
   return await response.json();
 }
 
 export const updateDoc = async(data) => {
-  const response = await fetch("http://192.168.0.73:3000/update", {
+  const response = await fetch("http://94.173.240.211:3000/update", {
     method: "PATCH",
     headers: {
       Accept: 'application/json',
@@ -89,7 +89,7 @@ export const updateDoc = async(data) => {
 
 export const incDecDoc = async(data) => {
   console.log(data)
-  const response = await fetch("http://192.168.0.73:3000/incDec", {
+  const response = await fetch("http://94.173.240.211:3000/incDec", {
     method: "PATCH",
     headers: {
       Accept: 'application/json',
@@ -104,9 +104,11 @@ export const incDecDoc = async(data) => {
   return await response.json();
 }
 
+import moment from 'moment';
+
 export const newSale = async(data) => {
     
-  const response = await fetch("http://192.168.0.73:3000/createSale", {
+  const response = await fetch("http://94.173.240.211:3000/createSale", {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -115,7 +117,8 @@ export const newSale = async(data) => {
         body: JSON.stringify({
           items: data.items,
           total: data.total,
-          dateTime: new Date(),
+          date: moment().format("D-M-YYYY"),
+          time: moment().format('HH:mm:ss'),
           weather: await getWeather()
         }),
       });

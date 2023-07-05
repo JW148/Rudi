@@ -2,203 +2,243 @@ export const products = [
     {
       name: "Fiorello",
       price: 2.80,
-      type: "veg"
+      type: "veg",
+      taxable: "no"
     },
     {
       name: "Brie",
       price: 3.00,
-      type: "veg"
+      type: "veg",
+      taxable: "no"
     },
     {
       name: "Jalapeno",
       price: 3.00,
-      type: "veg"
+      type: "veg",
+      taxable: "no"
     },
     {
       name: "Falafel",
       price: 3.00,
-      type: "veg"
+      type: "veg",
+      taxable: "no"
     },
     {
       name: "SmokedCh",
       price: 3.00,
-      type: "veg"
+      type: "veg",
+      taxable: "no"
     },
     {
       name: "Pastrami",
       price: 3.00,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Muffa",
       price: 3.30,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Salami",
       price: 2.70,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "HamMozz",
       price: 2.70,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Vanezia",
       price: 3.00,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Tuna",
       price: 3.00,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Chicken",
       price: 3.00,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Paris",
       price: 3.20,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "BLT",
       price: 3.10,
-      type: "meat"
+      type: "meat",
+      taxable: "no"
     },
     {
       name: "Syrup",
       price: 0.30,
-      type: "coffee"
+      type: "coffee",
+      taxable: "no"
     },
     {
       name: "Extra Shot",
       price: 0.50,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Espresso",
       price: 1.80,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Macchiato",
       price: 2.00,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Cortado",
       price: 2.20,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Flat White",
       price: 2.40,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Long Black",
       price: 2.00,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Americano",
       price: 2.20,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Cappuccino",
       price: 2.40,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Latte",
       price: 2.40,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Mocha",
       price: 2.50,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Hot Chocolate",
       price: 2.00,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Tea",
       price: 1.50,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Marocchino",
       price: 3.00,
-      type: "coffee"
+      type: "coffee",
+      taxable: "yes"
     },
     {
       name: "Cans",
       price: 1.20,
-      type: "drink"
+      type: "drink",
+      taxable: "yes"
     },
     {
       name: "Water",
       price: 0.8,
-      type: "drink"
+      type: "drink",
+      taxable: "no"
     }
     ,
     {
       name: "Fizzy Water",
       price: 1.00,
-      type: "drink"
+      type: "drink",
+      taxable: "no"
     },
     {
       name: "Juice",
       price: 1.00,
-      type: "drink"
+      type: "drink",
+      taxable: "no"
     },
     {
       name: "Treats",
       price: 1.20,
-      type: "treats"
+      type: "treats",
+      taxable: "no"
     },
     {
       name: "KitKat",
       price: 0.60,
-      type: "treats"
+      type: "treats",
+      taxable: "no"
     },
     {
       name: "Nature Valley",
       price: 0.60,
-      type: "treats"
+      type: "treats",
+      taxable: "no"
     },
     {
       name: "Baklava",
       price: 1.50,
-      type: "pastry"
+      type: "pastry",
+      taxable: "no"
     },
     {
       name: "Spanakopita",
       price: 1.50,
-      type: "pastry"
+      type: "pastry",
+      taxable: "no"
     },
     {
       name: "Soup",
       price: 2.30,
-      type: "soup"
+      type: "soup",
+      taxable: "yes"
     },
     {
       name: "Crisps",
       price: 1.10,
-      type: "crisps"
+      type: "crisps",
+      taxable: "yes"
     },
     {
       name: "Extra Roll",
       price: 0.60,
-      type: "misc"
+      type: "misc",
+      taxable: "no"
     },
 ];
 

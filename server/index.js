@@ -55,9 +55,30 @@ app.get("/", async (req, res) =>{
     res.send(results).status(200);
 });
 
+// app.get("/getSales/:date", async(req, res) => {
+//   console.log("Connecting to collection...");
+//     let collection = db.collection("Sales");
+//     console.log("Querying collection...");
+//     console.log(req.params.date)
+//     const query = { date: req.params.date };
+//     let results = await collection.find(query).toArray();
+
+//     console.log("Returning results to client.")
+//     res.send(results).status(200);
+// })
+
 app.get("/getSales/:date", async(req, res) => {
-  console.log(req.params.id);
-  res.send().status(200);
+  console.log("Connecting to collection...");
+  let collection = db.collection("Sales");
+  console.log("Querying collection");
+  let day = req.params.date.substring(0,2);
+  let month = req.params.date.substring(3,5);
+  let year = req.params.date.substring(6,10);
+  let query = {"$or": [{"dateTime": {"$regex":`${year}-${month}-${day}`}}, {"date": req.params.date}]}
+  let response = await collection.find(query).toArray();
+  // let result = await collection.find({"dateTime":{"$regex":`^${year}-${month}-${day}`}}).toArray();
+  res.send(response).status(200);
+  // let result = await collection.find({$or:[{"dateTime":{"$regex":`^${year}-${month}-${day}`}},{"category":"small_talk"}]}).toArray();
 })
 
 //create route (http request to add a new item to the collection)

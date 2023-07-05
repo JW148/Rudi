@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { newSale } from "../../utils/Requests";
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default function Sale({setSaleOpen, saleItems, setSaleItems, total, setTotal}){
+export default function Sale({saleItems, setSaleItems, total, setTotal}){
 
 
   //used for btn logic
@@ -22,9 +22,6 @@ export default function Sale({setSaleOpen, saleItems, setSaleItems, total, setTo
   }
 
   handleOnPress = () => {
-    setSaleOpen(false);
-    setTotal(0);
-    setSaleItems([]);
 
     //make sale object to send to DB
     let obj = {
@@ -36,12 +33,19 @@ export default function Sale({setSaleOpen, saleItems, setSaleItems, total, setTo
         }) 
         .catch((error)=>{
           console.log(error);
-        })  
+        });
+
+        setTotal(0);
+        setSaleItems([]);
   }
 
   clear = () => {
     setTotal(0);
     setSaleItems([]);
+  }
+
+  press = () => {
+    console.log("pressed")
   }
   
   return(
