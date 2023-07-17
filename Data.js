@@ -177,20 +177,20 @@ export const products = [
       name: "Water",
       price: 0.8,
       type: "drink",
-      taxable: "no"
+      taxable: "yes"
     }
     ,
     {
       name: "Fizzy Water",
       price: 1.00,
       type: "drink",
-      taxable: "no"
+      taxable: "yes"
     },
     {
       name: "Juice",
       price: 1.00,
       type: "drink",
-      taxable: "no"
+      taxable: "yes"
     },
     {
       name: "Treats",
@@ -201,13 +201,13 @@ export const products = [
     {
       name: "KitKat",
       price: 0.60,
-      type: "treats",
-      taxable: "no"
+      type: "treats-other",
+      taxable: "yes"
     },
     {
       name: "Nature Valley",
       price: 0.60,
-      type: "treats",
+      type: "treats-other",
       taxable: "no"
     },
     {

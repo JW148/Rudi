@@ -1,9 +1,8 @@
 
 const {MongoClient, ObjectId} = require("mongodb");
+import { API_STRING } from "../API";
 
-const uri = "mongodb+srv://myAtlasDBUser:7ZNOL2OKRqlciE4b@cluster0.hz3iyqm.mongodb.net/?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
+const client = new MongoClient(API_STRING);
 
 console.log('Connecting to db...');
 const db = client.db("Stock");

@@ -17,6 +17,8 @@
     "@react-navigation/native": "^6.1.6",
     "expo": "~48.0.9",
     "expo-file-system": "~15.2.2",
+    "expo-print": "~12.2.1",
+    "expo-sharing": "~11.2.2",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.4",
     "moment": "^2.29.4",
