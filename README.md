@@ -1,3 +1,3 @@
 # Rudi
 
-A fully functional till and stock tracking app
+A fully functional till, stock tracking, and sales report app.
