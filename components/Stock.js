@@ -6,6 +6,8 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import { stock } from '../Data';
 import Items from './stock/Items';
 import NewItem from './stock/NewItem';
+import { useDispatch, useSelector } from 'react-redux';
+import {increment, decrement} from '../Redux/features/counter/counterSlice' 
 
 export default function Stock(){
 
@@ -49,21 +51,40 @@ export default function Stock(){
 
     const Item = ({title}) => (
         <View style={{flex:1}}>
-        <TouchableOpacity style={styles.button} onPress={() => setItemsOpen(true)}>
-        <Text style={{fontSize: 32}}>{title}</Text>
-      </TouchableOpacity>
-      </View>
+            <TouchableOpacity style={styles.button} onPress={() => setItemsOpen(true)}>
+                <Text style={{fontSize: 32}}>{title}</Text>
+            </TouchableOpacity>
+        </View>
       );
 
+      //Redux hooks to interact with the Redux store
+      //read data from the store using useSelector
+      const count = useSelector(state => state.counter.value)
+      //dispatch actions using useDispatch
+      const dispatch = useDispatch()
+
     return(
-        <GestureHandlerRootView style={{flex:1}}>
+    <GestureHandlerRootView style={{flex:1}}>
         <SafeAreaView style={styles.container}>
-      <FlatList
-        data={DATA}
-        numColumns={2}
-        renderItem={({item}) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
-      />
+            <FlatList
+                data={DATA}
+                numColumns={2}
+                renderItem={({item}) => <Item title={item.title} />}
+                keyExtractor={item => item.id}
+            />
+            <View style={{flex:1}}>
+                <TouchableOpacity style={styles.button} onPress={() => dispatch(increment())}>
+                    <Text style={{fontSize: 32}}>Inc</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex:1}}>
+                <TouchableOpacity style={styles.button} onPress={() => dispatch(decrement())}>
+                    <Text style={{fontSize: 32}}>Dec</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex:1}}>
+                <Text style={{alignSelf: 'center', fontSize: 30}}>{count}</Text>
+            </View>
     </SafeAreaView>
     {
         itemsOpen && (

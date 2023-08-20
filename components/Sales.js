@@ -9,12 +9,12 @@ import moment from 'moment';
 import { getSalesWithDate } from '../utils/Requests';
 import Button from '../components/Button'
 import PDF from './sales/PDF';
-import { set } from 'react-native-reanimated';
 
 export default function Sales(){
 
     const [monthID, setMonthId] = useState(moment().month());
     const [day, setDay] = useState(moment().format('D'));
+    
     const [transactions, setTransactions] = useState([]);
     const [total, setTotal] = useState(0);
     const [tax, setTax] = useState(0);
