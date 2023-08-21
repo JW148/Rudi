@@ -8,6 +8,7 @@ import Items from './stock/Items';
 import NewItem from './stock/NewItem';
 import { useDispatch, useSelector } from 'react-redux';
 import {increment, decrement} from '../Redux/features/counter/counterSlice' 
+import { useGetIngredientsQuery } from '../Redux/features/api/apiSlice';
 
 export default function Stock(){
 
@@ -45,6 +46,23 @@ export default function Stock(){
             id: 8
         }
     ];
+
+    const {
+        data: ingredients,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetIngredientsQuery()
+
+    let result
+    if(isLoading){
+        console.log("isLoading...")
+    }else if(isSuccess){
+        console.log(ingredients)
+    }else if(isError){
+        console.log(error.toString())
+    }
 
     const [itemsOpen, setItemsOpen] = useState(false);
     const [newItemOpen, setNewItemOpen] = useState(false);

@@ -10,9 +10,12 @@ import { getSalesWithDate } from '../utils/Requests';
 import Button from '../components/Button'
 import PDF from './sales/PDF';
 
+import { useGetSalesQuery } from '../Redux/features/api/apiSlice';
+
+
 export default function Sales(){
 
-    const [monthID, setMonthId] = useState(moment().month());
+    const [monthID, setMonthID] = useState(moment().month());
     const [day, setDay] = useState(moment().format('D'));
     
     const [transactions, setTransactions] = useState([]);
@@ -97,11 +100,23 @@ export default function Sales(){
         getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res));
     }, [monthID])
 
+
+
+    //redux
+    // const { data: sales, isFetching, isSuccess } = useGetSalesQuery(`${day}-${monthID+1}-2023`)
+
+    // let content
+    // if(isFetching){
+    //     console.log('fetching...')
+    // }else if(isSuccess){
+    //     console.log(sales)
+    // }
+
     return(
         <View style={styles.container}>
             <DatePicker
                 monthID={monthID}
-                setMonthId={setMonthId}
+                setMonthID={setMonthID}
                 day={day}
                 setDay={setDay}
             /> 
@@ -162,7 +177,7 @@ const styles = StyleSheet.create({
         margin: 10,
       },
       infoText: {
-        fontWeight: 300,
+        fontWeight: '300',
         fontSize: 32
       },
       button: {
@@ -178,7 +193,7 @@ const styles = StyleSheet.create({
       },
       text: {
         fontSize: 20,
-        fontWeight: "300",
+        fontWeight: '300',
         padding: 4,
         alignSelf: 'center',
         color: 'white'

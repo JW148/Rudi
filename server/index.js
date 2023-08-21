@@ -43,7 +43,7 @@ app.get("/status", async(req, res) => {
   res.send({status: "OK"}).status(200);
 })
 
-//read route (http request to get data from the db)
+//read route (http request to get ingredients data from the db)
 app.get("/", async (req, res) =>{
     console.log("Connecting to collection...");
     let collection = db.collection("Ingredients");

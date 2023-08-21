@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
     margin: 5
   }
 });
