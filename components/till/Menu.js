@@ -11,7 +11,7 @@ export default function Menu({header, openClose, items, handleOnPress, filters})
     
     // bottomShelf variables
     const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => ["100%"], []);
+    const snapPoints = useMemo(() => ["5%","100%"], []);
 
 
     let prevEl = items[0].type;

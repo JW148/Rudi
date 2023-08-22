@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
 import DatePicker from './sales/DatePicker';
 import Transaction from './sales/Transaction';
@@ -18,99 +18,105 @@ export default function Sales(){
     const [monthID, setMonthID] = useState(moment().month());
     const [day, setDay] = useState(moment().format('D'));
     
-    const [transactions, setTransactions] = useState([]);
-    const [total, setTotal] = useState(0);
-    const [tax, setTax] = useState(0);
-    const [net, setNet] = useState(0);
-    const [numOfTaxable, setNumOfTaxable] = useState(0);
-    const [numSoup, setNumSoup] = useState(0);
-    const [numKitKat, setNumKitKat] = useState(0);
-    const [numCoffees, setNumCoffees] = useState(0);
-    const [numDrinks, setNumDrinks] = useState(0);
-
     const [modalVisible, setModalVisible] = useState(false);
 
-    useEffect(()=>{
-        //calculate the total for the day
-        let i = 0;
-        transactions.forEach(el => {
-            i += el.total;
-        })
-        setTotal(i);
-    }, [transactions])
+    // useEffect(()=>{
+    //     //calculate the total for the day
+    //     let i = 0;
+    //     transactions.forEach(el => {
+    //         i += el.total;
+    //     })
+    //     setTotal(i);
+    // }, [transactions])
 
-    useEffect(()=>{
-        let j = 0;
-        let drinks = 0;
-        let soup = 0;
-        let coffee = 0;
-        let kitkats = 0;
-        let taxable = 0;
-        //calculate the taxable amount for the day
-        transactions.forEach(el => {
-            el.items.forEach(item => {
-                if(item.taxable === "yes"){
-                    taxable++;
-                   j += item.price;
-                   console.log(item.type);
-                //    switch(item.type){
-                //     case 'drink':
-                //         drinks++;
-                //         break;
-                //     case 'coffee':
-                //         coffee++;
-                //         break;
-                //     case 'soup':
-                //         soup++;
-                //         break;
-                //     case 'treats-other':
-                //         kitkats++;
-                //         break;
-                //    }
-                };
-            })
-            console.log(" ")
-        })
-        setTax(j);
-        setNumOfTaxable(taxable);
-        setNumCoffees(coffee);
-        setNumDrinks(drinks);
-        setNumSoup(soup);
-        setNumKitKat(kitkats);
-    }, [total])
+    // useEffect(()=>{
+    //     let j = 0;
+    //     let drinks = 0;
+    //     let soup = 0;
+    //     let coffee = 0;
+    //     let kitkats = 0;
+    //     let taxable = 0;
+    //     //calculate the taxable amount for the day
+    //     transactions.forEach(el => {
+    //         el.items.forEach(item => {
+    //             if(item.taxable === "yes"){
+    //                 taxable++;
+    //                j += item.price;
+    //             //    switch(item.type){
+    //             //     case 'drink':
+    //             //         drinks++;
+    //             //         break;
+    //             //     case 'coffee':
+    //             //         coffee++;
+    //             //         break;
+    //             //     case 'soup':
+    //             //         soup++;
+    //             //         break;
+    //             //     case 'treats-other':
+    //             //         kitkats++;
+    //             //         break;
+    //             //    }
+    //             };
+    //         })
+    //     })
+    //     setTax(j);
+    //     setNumOfTaxable(taxable);
+    //     setNumCoffees(coffee);
+    //     setNumDrinks(drinks);
+    //     setNumSoup(soup);
+    //     setNumKitKat(kitkats);
+    // }, [total])
 
-    useEffect(()=>{
-        //Net total (total minus VAT)
-        setNet(total - tax);
-    }, [tax])
+    // useEffect(()=>{
+    //     //Net total (total minus VAT)
+    //     setNet(total - tax);
+    // }, [tax])
 
 
-    useEffect(()=>{
-        setTotal(0);
-        setTax(0);
-        setNet(0);
-        setNumOfTaxable(0);
-        getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res)); 
-    }, [day])
-
-    useEffect(()=>{
-        setTotal(0);
-        setTax(0);
-        setNet(0);
-        getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res));
-    }, [monthID])
-
-
+    // useEffect(()=>{
+    //     setTotal(0);
+    //     setTax(0);
+    //     setNet(0);
+    //     setNumOfTaxable(0);
+    //     getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res)); 
+    // }, [day])
 
     //redux
-    // const { data: sales, isFetching, isSuccess } = useGetSalesQuery(`${day}-${monthID+1}-2023`)
+    const { data: sales, isFetching, isSuccess } = useGetSalesQuery(`${day}-${monthID+1}-2023`)
 
-    // let content
-    // if(isFetching){
-    //     console.log('fetching...')
-    // }else if(isSuccess){
-    //     console.log(sales)
-    // }
+    const Content = () => {
+        if(isFetching){
+            return(
+                <ActivityIndicator/>
+            )
+        }else if(isSuccess){
+            return(
+                <Transaction transactions={sales}/>
+            )
+        }else if(sales.length === 0){
+            <Text>No data</Text>
+        }
+    }
+
+    const getFigures = () => {
+        let total = 0;
+        let vat = 0;
+        let net = 0;
+        //calculate total and vat totals
+        isSuccess && sales.forEach(el=>{
+            total += el.total;
+            //for each sale object, iterate through it's item to get the total taxable amount
+            el.items.forEach(item=>{
+                if(item.taxable === "yes"){
+                    vat += item.price;
+                }
+            })
+        })
+        net = total - vat;
+        //return an array of all the figures to display 
+        //(react re-renderes them every time the sales field of the rtk query changes)
+        return [total, vat, net]
+    }
 
     return(
         <View style={styles.container}>
@@ -124,20 +130,20 @@ export default function Sales(){
                     <View style={{flexDirection: 'row', justifyContent: 'space-around', borderBottomWidth: 1}}>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={styles.infoText}>Net</Text>
-                            <Text style={[styles.infoText, {fontSize: 24}]}>£{net.toFixed(2)}</Text>
+                            <Text style={[styles.infoText, {fontSize: 24}]}>£{getFigures()[2].toFixed(1)}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={styles.infoText}>Total</Text>
-                            <Text style={[styles.infoText, {fontSize: 24}]}>£{total.toFixed(2)}</Text>
+                            <Text style={[styles.infoText, {fontSize: 24}]}>£{getFigures()[0].toFixed(1)}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={styles.infoText}>VAT</Text>
-                            <Text style={[styles.infoText, {fontSize: 24}]}>£{tax.toFixed(2)}</Text>
+                            <Text style={[styles.infoText, {fontSize: 24}]}>£{getFigures()[1].toFixed(1)}</Text>
                         </View>
                     </View>
                 </View>
             <View style={{flex: 4}}>
-                { transactions && transactions ? <Transaction transactions={transactions}/> : <Text style={{alignSelf: 'center'}}>No data</Text>}
+                <Content/>
             </View>
             <View style={{flex: 1}}>
                 <Button 
@@ -147,7 +153,7 @@ export default function Sales(){
                     handleOnPress={()=>setModalVisible(!modalVisible)}
                 />
           </View>
-            <PDF 
+            {/* <PDF 
                 transactions={transactions}
                 appTotal={total}
                 appVAT={tax}
@@ -161,7 +167,7 @@ export default function Sales(){
                 numOfTaxable={numOfTaxable}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
-            />
+            /> */}
         </View>
     )
 }

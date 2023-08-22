@@ -5,9 +5,36 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { newSale } from "../../utils/Requests";
 import { ScrollView } from 'react-native-gesture-handler';
+import moment from 'moment';
+import { useAddNewSaleMutation } from '../../Redux/features/api/apiSlice';
 
 export default function Sale({saleItems, setSaleItems, total, setTotal}){
 
+  //Redux
+  const [addNewSale] = useAddNewSaleMutation();
+
+  const newSaleClicked = async () => {
+    let obj = {
+      items: saleItems,
+      total: total,
+      date: moment().format("D-M-YYYY"),
+      time: moment().format('HH:mm:ss'),
+      weather: await getWeather()
+    }
+    try {
+      await addNewSale(obj).unwrap()
+      setTotal(0);
+      setSaleItems([]);
+    } catch (err) {
+      console.error("Failed to save the sale: ", err)
+    }
+  }
+
+   //get weather data
+const getWeather = async() => {
+  let response = await fetch("http://api.weatherapi.com/v1/current.json?key=9a35dba962844328897163858231705&q=EH12QN&aqi=no");
+  return response.json();
+}
 
   //used for btn logic
   const [btnDisabled, setBtnDisabled] = useState(false);
@@ -21,31 +48,30 @@ export default function Sale({saleItems, setSaleItems, total, setTotal}){
     setTotal(+(total - itemPrice).toFixed(3))
   }
 
-  handleOnPress = () => {
+  // handleOnPress = () => {
 
-    //make sale object to send to DB
-    let obj = {
-      items: saleItems,
-      total: total
-    }
-    newSale(obj).then((response)=>{
-          console.log(response);
-        }) 
-        .catch((error)=>{
-          console.log(error);
-        });
+  //   //make sale object to send to DB
+  //   let obj = {
+  //     items: saleItems,
+  //     total: total,
+  //     date: moment().format("D-M-YYYY"),
+  //     time: moment().format('HH:mm:ss'),
+  //     weather: await getWeather()
+  //   }
+  //   newSale(obj).then((response)=>{
+  //         console.log(response);
+  //       }) 
+  //       .catch((error)=>{
+  //         console.log(error);
+  //       });
 
-        setTotal(0);
-        setSaleItems([]);
-  }
+  //       setTotal(0);
+  //       setSaleItems([]);
+  // }
 
   clear = () => {
     setTotal(0);
     setSaleItems([]);
-  }
-
-  press = () => {
-    console.log("pressed")
   }
   
   return(
@@ -74,13 +100,13 @@ export default function Sale({saleItems, setSaleItems, total, setTotal}){
           <Text style={styles.headerText}>Total            £{total}</Text>
       </View>
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#027516'}]]} disabled={btnDisabled} onPress={handleOnPress}>
+        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#027516'}]]} disabled={btnDisabled} onPress={newSaleClicked}>
           <Text style={styles.btnText}>Cash</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: 'red'}]]} disabled={btnDisabled} onPress={clear}>
           <Text style={styles.btnText}>Clear</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#024075'}]]} disabled={btnDisabled} onPress={handleOnPress}>
+        <TouchableOpacity style={[btnDisabled ? styles.disabled : [styles.btn, {backgroundColor: '#024075'}]]} disabled={btnDisabled} onPress={newSaleClicked}>
           <Text style={styles.btnText}>Card</Text>
         </TouchableOpacity>
       </View>
