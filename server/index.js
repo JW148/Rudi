@@ -74,10 +74,8 @@ app.get("/getSales/:date", async(req, res) => {
   let month = req.params.date.substring(3,5);
   let year = req.params.date.substring(6,10);
   let query = {"$or": [{"dateTime": {"$regex":`${year}-${month}-${day}`}}, {"date": req.params.date}]}
-  let response = await collection.find(query).toArray();
-  // let result = await collection.find({"dateTime":{"$regex":`^${year}-${month}-${day}`}}).toArray();
+  let response = (await collection.find(query).toArray()).reverse();
   res.send(response).status(200);
-  // let result = await collection.find({$or:[{"dateTime":{"$regex":`^${year}-${month}-${day}`}},{"category":"small_talk"}]}).toArray();
 })
 
 //create route (http request to add a new item to the collection)
