@@ -1,6 +1,6 @@
 
 const {MongoClient, ObjectId} = require("mongodb");
-import { API_STRING } from "../API";
+const {API_STRING} = require("../API")
 
 const client = new MongoClient(API_STRING);
 
