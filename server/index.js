@@ -1,12 +1,10 @@
-
-const {MongoClient, ObjectId} = require("mongodb");
-const {API_STRING} = require("../API")
+const { MongoClient, ObjectId } = require("mongodb");
+const { API_STRING } = require("../API");
 
 const client = new MongoClient(API_STRING);
 
-console.log('Connecting to db...');
+console.log("Connecting to db...");
 const db = client.db("Stock");
-
 
 // async function run(){
 //     try{
@@ -21,15 +19,15 @@ const db = client.db("Stock");
 //         return listing;
 //     }catch(err){
 //         console.error(err);
-//     } 
+//     }
 //     // finally {
 //     //     console.log('Closing connection to MongoDB.')
 //     //     await client.close();
 //     // }
 // }
 
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
@@ -38,20 +36,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //status route (route used to check if the server is running)
 
-app.get("/status", async(req, res) => {
+app.get("/status", async (req, res) => {
   console.log("Status: OK");
-  res.send({status: "OK"}).status(200);
-})
+  res.send({ status: "OK" }).status(200);
+});
 
 //read route (http request to get ingredients data from the db)
-app.get("/", async (req, res) =>{
-    console.log("Connecting to collection...");
-    let collection = db.collection("Ingredients");
-    console.log("Querying collection...");
-    let results = await collection.find({}).toArray();
+app.get("/", async (req, res) => {
+  console.log("Connecting to collection...");
+  let collection = db.collection("Ingredients");
+  console.log("Querying collection...");
+  let results = await collection.find({}).toArray();
 
-    console.log("Returning results to client.")
-    res.send(results).status(200);
+  console.log("Returning results to client.");
+  res.send(results).status(200);
 });
 
 // app.get("/getSales/:date", async(req, res) => {
@@ -66,90 +64,90 @@ app.get("/", async (req, res) =>{
 //     res.send(results).status(200);
 // })
 
-app.get("/getSales/:date", async(req, res) => {
+app.get("/getSales/:date", async (req, res) => {
   console.log("Connecting to collection...");
   let collection = db.collection("Sales");
   console.log("Querying collection");
-  let day = req.params.date.substring(0,2);
-  let month = req.params.date.substring(3,5);
-  let year = req.params.date.substring(6,10);
-  let query = {"$or": [{"dateTime": {"$regex":`${year}-${month}-${day}`}}, {"date": req.params.date}]}
+  let day = req.params.date.substring(0, 2);
+  let month = req.params.date.substring(3, 5);
+  let year = req.params.date.substring(6, 10);
+  let query = {
+    $or: [
+      { dateTime: { $regex: `${year}-${month}-${day}` } },
+      { date: req.params.date },
+    ],
+  };
   let response = (await collection.find(query).toArray()).reverse();
   res.send(response).status(200);
-})
-
-//create route (http request to add a new item to the collection)
-app.post("/create", async (req, res) => { 
-  console.log("Connecting to collection...");
-    let collection = db.collection("Ingredients");
-    console.log("Inserting document...");
-    let newDoc = req.body;
-    let result = await collection.insertOne(newDoc);
-    console.log("Returning results to client.")
-    res.send(result).status(204);
 });
 
+//create route (http request to add a new item to the collection)
+app.post("/create", async (req, res) => {
+  console.log("Connecting to collection...");
+  let collection = db.collection("Ingredients");
+  console.log("Inserting document...");
+  let newDoc = req.body;
+  let result = await collection.insertOne(newDoc);
+  console.log("Returning results to client.");
+  res.send(result).status(204);
+});
 
 //delete route (http delete request to delete an item, by id, from the db)
 app.delete("/delete/:id", async (req, res) => {
-  const query = {_id: new ObjectId(req.params.id)}
-   console.log("Connecting to collection...");
-   const collection = db.collection("Ingredients");
-   console.log("Deleting document...");
-   let result = await collection.deleteOne(query);
-   
-   res.send(result).status(200);
+  const query = { _id: new ObjectId(req.params.id) };
+  console.log("Connecting to collection...");
+  const collection = db.collection("Ingredients");
+  console.log("Deleting document...");
+  let result = await collection.deleteOne(query);
+
+  res.send(result).status(200);
 });
 
 //update route (http patch request to update an item, by id, from the db)
-app.patch("/update", async(req, res) => {
-
+app.patch("/update", async (req, res) => {
   const updateDoc = () => {
-    let update = {}
+    let update = {};
     Object.keys(req.body).forEach((el) => {
       update.el = req.body.el;
     });
     return update;
-  }
+  };
 
   console.log("Connecting to collection...");
   const collection = db.collection("Ingredients");
   console.log("Updating document...");
   let result = await collection.updateOne(
-    {_id: new ObjectId(req.body.id)},
-    {$set: {name: req.body.name}}
+    { _id: new ObjectId(req.body.id) },
+    { $set: { name: req.body.name } }
   );
 
   res.send(result).status(200);
 });
 
 //createSale route(http request to add a new sale to the Sales collection)
-app.post("/createSale", async (req, res) => { 
+app.post("/createSale", async (req, res) => {
   console.log("Connecting to collection...");
-    let collection = db.collection("Sales");
-    console.log("Inserting document...");
-    let newDoc = req.body;
-    let result = await collection.insertOne(newDoc);
-    console.log("Returning results to client.")
-    res.send(result).status(204);
+  let collection = db.collection("Sales");
+  console.log("Inserting document...");
+  let newDoc = req.body;
+  let result = await collection.insertOne(newDoc);
+  console.log("Returning results to client.");
+  res.send(result).status(204);
 });
 
 //increment route(http request to increment the 'amount in stock' and 'used this week' fields for a specified item)
-app.patch("/incDec", async(req, res) => {
-
-
+app.patch("/incDec", async (req, res) => {
   //a way to get all the keys from the request body and make a query object out of them
   //this is to be used in the update route to update varying amounts of fields in a document
-  (()=>{
+  (() => {
     let obj = {};
-    let keys = Object.keys(req.body)
-    
+    let keys = Object.keys(req.body);
+
     keys.forEach((el) => {
       obj[el] = req.body[el];
-    })
+    });
     console.log(obj);
-}
-  )();
+  })();
 
   console.log(req.body.id);
   console.log("Connecting to collection...");
@@ -160,13 +158,13 @@ app.patch("/incDec", async(req, res) => {
   const options = { upsert: true };
 
   let result = await collection.updateOne(
-    {_id: new ObjectId(req.body.id)},
-    {$inc: {amntInStock: req.body.x, usedWeek: req.body.y}}
+    { _id: new ObjectId(req.body.id) },
+    { $inc: { amntInStock: req.body.x, usedWeek: req.body.y } }
   );
-  console.log("Returning results to client.")
+  console.log("Returning results to client.");
   res.send(result).status(200);
-})
+});
 
-app.listen(port, () => { 
-  console.log(`Server listening on port ${port}`)
-}); 
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});

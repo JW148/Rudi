@@ -6,7 +6,6 @@ import Transaction from './sales/Transaction';
 
 import moment from 'moment';
 
-import { getSalesWithDate } from '../utils/Requests';
 import Button from '../components/Button'
 import PDF from './sales/PDF';
 
@@ -20,74 +19,13 @@ export default function Sales(){
     
     const [modalVisible, setModalVisible] = useState(false);
 
-    // useEffect(()=>{
-    //     //calculate the total for the day
-    //     let i = 0;
-    //     transactions.forEach(el => {
-    //         i += el.total;
-    //     })
-    //     setTotal(i);
-    // }, [transactions])
-
-    // useEffect(()=>{
-    //     let j = 0;
-    //     let drinks = 0;
-    //     let soup = 0;
-    //     let coffee = 0;
-    //     let kitkats = 0;
-    //     let taxable = 0;
-    //     //calculate the taxable amount for the day
-    //     transactions.forEach(el => {
-    //         el.items.forEach(item => {
-    //             if(item.taxable === "yes"){
-    //                 taxable++;
-    //                j += item.price;
-    //             //    switch(item.type){
-    //             //     case 'drink':
-    //             //         drinks++;
-    //             //         break;
-    //             //     case 'coffee':
-    //             //         coffee++;
-    //             //         break;
-    //             //     case 'soup':
-    //             //         soup++;
-    //             //         break;
-    //             //     case 'treats-other':
-    //             //         kitkats++;
-    //             //         break;
-    //             //    }
-    //             };
-    //         })
-    //     })
-    //     setTax(j);
-    //     setNumOfTaxable(taxable);
-    //     setNumCoffees(coffee);
-    //     setNumDrinks(drinks);
-    //     setNumSoup(soup);
-    //     setNumKitKat(kitkats);
-    // }, [total])
-
-    // useEffect(()=>{
-    //     //Net total (total minus VAT)
-    //     setNet(total - tax);
-    // }, [tax])
-
-
-    // useEffect(()=>{
-    //     setTotal(0);
-    //     setTax(0);
-    //     setNet(0);
-    //     setNumOfTaxable(0);
-    //     getSalesWithDate(`${day}-${monthID+1}-2023`).then(res => setTransactions(res)); 
-    // }, [day])
-
     //redux
     const { data: sales, isFetching, isSuccess } = useGetSalesQuery(`${day}-${monthID+1}-2023`)
 
     const Content = () => {
         if(isFetching){
             return(
-                <ActivityIndicator/>
+                <ActivityIndicator size="large"/>
             )
         }else if(isSuccess){
             return(
@@ -98,10 +36,16 @@ export default function Sales(){
         }
     }
 
+    let total = 0;
+    let vat = 0;
+    let net = 0;
+    let taxable = 0;
+
     const getFigures = () => {
-        let total = 0;
-        let vat = 0;
-        let net = 0;
+        total = 0;
+        vat = 0;
+        net = 0;
+        taxable = 0;
         //calculate total and vat totals
         isSuccess && sales.forEach(el=>{
             total += el.total;
@@ -109,6 +53,7 @@ export default function Sales(){
             el.items.forEach(item=>{
                 if(item.taxable === "yes"){
                     vat += item.price;
+                    taxable++;
                 }
             })
         })
@@ -153,21 +98,17 @@ export default function Sales(){
                     handleOnPress={()=>setModalVisible(!modalVisible)}
                 />
           </View>
-            {/* <PDF 
-                transactions={transactions}
+            <PDF 
+                transactions={sales}
                 appTotal={total}
-                appVAT={tax}
+                appVAT={vat}
                 appNet={net}
                 month={monthID + 1}
                 day={day}
-                numCoffees={numCoffees}
-                numDrinks={numDrinks}
-                numSoup={numSoup}
-                numKitKat={numKitKat}
-                numOfTaxable={numOfTaxable}
+                numOfTaxable={taxable}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
-            /> */}
+            />
         </View>
     )
 }

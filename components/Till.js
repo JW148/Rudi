@@ -7,7 +7,6 @@ import Sale from './till/Sale';
 import Button from './Button';
 import { products } from '../Data';
 import Menu from './till/Menu';
-import { getDocs, getStatus, set } from '../utils/Requests';
 
 export default function Till(){
   //state vars
