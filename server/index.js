@@ -1,7 +1,7 @@
 const { MongoClient, ObjectId } = require("mongodb");
-const { API_STRING } = require("../API");
+const { MONGO_API_STRING } = require("../API");
 
-const client = new MongoClient(API_STRING);
+const client = new MongoClient(MONGO_API_STRING);
 
 console.log("Connecting to db...");
 const db = client.db("Stock");
